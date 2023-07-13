@@ -12,10 +12,9 @@ import org.springframework.context.annotation.Bean;
 @Slf4j
 public class Main implements CommandLineRunner{
 	public static void main(String[] args) {
-		funcionTercera("Jose", "Maria");
 		SpringApplication.run(Main.class, args);
 		// Llamando a la tercera función desde el main
-
+		funcionTercera("Jose", "Maria");
 	}
 	@Bean
 	CommandLineRunner ejecutame() {
@@ -47,9 +46,9 @@ public class Main implements CommandLineRunner{
 		System.out.println("Hola desde la clase tercera, " + a + " " + b);
 	}
 
-	// Llamando a la función desde el run
 	@Override
 	public void run(String... args) throws Exception {
+		// Llamando a la función desde el run
 		funcionTercera("Jose", "Maria");
 	}
 
