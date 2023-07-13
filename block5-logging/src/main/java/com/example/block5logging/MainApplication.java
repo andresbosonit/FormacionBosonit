@@ -32,6 +32,4 @@ public class MainApplication implements CommandLineRunner {
 		Path logPath = Path.of(logFilePath);
 		Files.writeString(logPath, "", StandardOpenOption.TRUNCATE_EXISTING);
 	}
-
-
 }
