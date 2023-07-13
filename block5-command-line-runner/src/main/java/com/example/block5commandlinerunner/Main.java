@@ -11,17 +11,11 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 @Slf4j
 public class Main implements CommandLineRunner{
-	/* Concluiones
-	   1) Lo primero que se ejecuta es la función del @PostConstruct
-	   2) Después la funcion run implementada que llama a la tercera función.
-	   3) Después la funcion ejecutame y la segunda función. La que más arriba este en el código se ejecutara antes.
-	   4) Por último la tercera función pero llamada al final del main.
-	   El punto 2 y 4 dependen del orden que tengan en el main.
-	 */
 	public static void main(String[] args) {
+		funcionTercera("Jose", "Maria");
 		SpringApplication.run(Main.class, args);
 		// Llamando a la tercera función desde el main
-		funcionTercera("Jose", "Maria");
+
 	}
 	@Bean
 	CommandLineRunner ejecutame() {
