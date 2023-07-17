@@ -1,5 +1,8 @@
 package com.example.block6pathvariableheaders;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -36,5 +39,13 @@ public class Controlador {
             map.put("var" + (i + 1), vars[i]);
         }
         return map;
+    }
+
+    // Peticion get extra
+    @GetMapping("header")
+    public ResponseEntity<String> mandarHeader(HttpServletRequest request, HttpServletResponse response){
+         response.setHeader("h1",request.getHeader("h1"));
+         response.setHeader("h2",request.getHeader("h2"));
+         return ResponseEntity.ok("Respuesta del método GET con encabezado personalizado");
     }
 }
