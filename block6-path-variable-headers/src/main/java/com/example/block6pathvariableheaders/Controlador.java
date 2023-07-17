@@ -5,7 +5,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class Controlador {
@@ -47,5 +50,12 @@ public class Controlador {
          response.setHeader("h1",request.getHeader("h1"));
          response.setHeader("h2",request.getHeader("h2"));
          return ResponseEntity.ok("Respuesta del método GET con encabezado personalizado");
+    }
+
+    // Peticion put extra
+    @PostMapping("all")
+    public TodosLosDatos devolverTodo(@RequestBody Object body, HttpServletRequest request){
+        TodosLosDatos tld = new TodosLosDatos(body, Collections.list(request.getHeaderNames()), Collections.list(request.getParameterNames()));
+        return tld;
     }
 }
