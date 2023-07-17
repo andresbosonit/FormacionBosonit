@@ -24,7 +24,7 @@ public class Controlador2 {
 
     // 2
     @GetMapping(value = "/getCiudades")
-    public List<Ciudad> devolverPersona(){
+    public List<Ciudad> devolverCiudades(){
         return c1.ciudades;
     }
 }
