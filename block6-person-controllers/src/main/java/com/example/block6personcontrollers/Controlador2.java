@@ -17,7 +17,8 @@ public class Controlador2 {
     // 1
     @GetMapping(value = "/getPersona")
     public Persona devolverPersona(){
-        return this.servicioPersona.obtenerPersona();
+        Persona p = this.servicioPersona.obtenerPersona();
+        return new Persona(p.getNombre(),p.getEdad()*2,p.getPoblacion());
     }
 
     // 2

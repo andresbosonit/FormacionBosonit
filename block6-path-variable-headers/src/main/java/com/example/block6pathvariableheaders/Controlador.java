@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -54,8 +55,8 @@ public class Controlador {
 
     // Peticion put extra
     @PostMapping("all")
-    public TodosLosDatos devolverTodo(@RequestBody Object body, HttpServletRequest request){
-        TodosLosDatos tld = new TodosLosDatos(body, Collections.list(request.getHeaderNames()), Collections.list(request.getParameterNames()));
+    public TodosLosDatos devolverTodo(@RequestBody Object body, HttpServletRequest request) throws IOException {
+        TodosLosDatos tld = new TodosLosDatos(request.getInputStream(), Collections.list(request.getHeaderNames()), Collections.list(request.getParameterNames()));
         return tld;
     }
 }
