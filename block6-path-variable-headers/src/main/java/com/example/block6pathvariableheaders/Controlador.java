@@ -5,11 +5,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.io.InputStreamReader;
+import java.util.*;
+import java.util.stream.Stream;
 
 @RestController
 public class Controlador {
@@ -53,10 +53,16 @@ public class Controlador {
          return ResponseEntity.ok("Respuesta del método GET con encabezado personalizado");
     }
 
-    // Peticion put extra
+    // Peticion post extra
     @PostMapping("all")
-    public TodosLosDatos devolverTodo(@RequestBody Object body, HttpServletRequest request) throws IOException {
-        TodosLosDatos tld = new TodosLosDatos(request.getInputStream(), Collections.list(request.getHeaderNames()), Collections.list(request.getParameterNames()));
-        return tld;
+    public ResponseEntity<TodosLosDatos> devolverTodo(HttpServletRequest request) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        StringBuilder body = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            body.append(line);
+        }
+        TodosLosDatos tld = new TodosLosDatos(body, Collections.list(request.getHeaderNames()), Collections.list(request.getParameterNames()));
+        return ResponseEntity.ok(tld);
     }
 }
