@@ -1,4 +1,4 @@
-package com.example.block7crudvalidation.controller;
+package com.example.block7crudvalidation.exceptions;
 
 import com.example.block7crudvalidation.exceptions.CustomError;
 import com.example.block7crudvalidation.exceptions.CustomErrorResponse;
