@@ -3,8 +3,6 @@ package com.example.block7crudvalidation.controller;
 import com.example.block7crudvalidation.application.PersonServiceImpl;
 import com.example.block7crudvalidation.controller.dto.PersonInputDto;
 import com.example.block7crudvalidation.controller.dto.PersonOutputDto;
-import com.example.block7crudvalidation.exceptions.EntityNotFoundException;
-import com.example.block7crudvalidation.exceptions.UnprocessableEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +12,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/persona")
-public class Controller {
+public class PersonController {
     @Autowired
     PersonServiceImpl servicioPersona;
 
@@ -49,19 +47,7 @@ public class Controller {
     }
 
     @PutMapping
-    public ResponseEntity<PersonOutputDto> actualizarPersona(@RequestBody PersonInputDto person) throws Exception {
-        PersonOutputDto personaEncontrada = servicioPersona.getPerson(person.getIdPersona());
-        person.setUsuario(Objects.requireNonNullElse(person.getUsuario(), personaEncontrada.getUsuario()));
-        person.setPassword(Objects.requireNonNullElse(person.getPassword(), personaEncontrada.getPassword()));
-        person.setName(Objects.requireNonNullElse(person.getName(), personaEncontrada.getName()));
-        person.setSurname(Objects.requireNonNullElse(person.getSurname(), personaEncontrada.getSurname()));
-        person.setCompanyEmail(Objects.requireNonNullElse(person.getCompanyEmail(), personaEncontrada.getCompanyEmail()));
-        person.setPersonalEmail(Objects.requireNonNullElse(person.getPersonalEmail(), personaEncontrada.getPersonalEmail()));
-        person.setCity(Objects.requireNonNullElse(person.getCity(), personaEncontrada.getCity()));
-        person.setActive(Objects.requireNonNullElse(person.getActive(), personaEncontrada.getActive()));
-        person.setCreatedDate(Objects.requireNonNullElse(person.getCreatedDate(), personaEncontrada.getCreatedDate()));
-        person.setImageUrl(Objects.requireNonNullElse(person.getImageUrl(), personaEncontrada.getImageUrl()));
-        person.setTerminationDate(Objects.requireNonNullElse(person.getTerminationDate(), personaEncontrada.getTerminationDate()));
+    public ResponseEntity<PersonOutputDto> actualizarPersona(@RequestBody PersonInputDto person){
         return  ResponseEntity.ok().body(servicioPersona.updatePerson(person));
     }
 }

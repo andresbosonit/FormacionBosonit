@@ -3,14 +3,13 @@ package com.example.block7crudvalidation.domain;
 import com.example.block7crudvalidation.controller.dto.PersonInputDto;
 import com.example.block7crudvalidation.controller.dto.PersonOutputDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Person {

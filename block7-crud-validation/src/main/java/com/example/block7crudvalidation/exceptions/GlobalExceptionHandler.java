@@ -1,10 +1,5 @@
 package com.example.block7crudvalidation.exceptions;
 
-import com.example.block7crudvalidation.exceptions.CustomError;
-import com.example.block7crudvalidation.exceptions.CustomErrorResponse;
-import com.example.block7crudvalidation.exceptions.EntityNotFoundException;
-import com.example.block7crudvalidation.exceptions.UnprocessableEntityException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

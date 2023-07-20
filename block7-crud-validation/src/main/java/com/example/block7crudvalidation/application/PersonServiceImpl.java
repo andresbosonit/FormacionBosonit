@@ -3,22 +3,31 @@ package com.example.block7crudvalidation.application;
 import com.example.block7crudvalidation.controller.dto.PersonInputDto;
 import com.example.block7crudvalidation.controller.dto.PersonOutputDto;
 import com.example.block7crudvalidation.domain.Person;
+import com.example.block7crudvalidation.domain.Profesor;
+import com.example.block7crudvalidation.domain.Student;
 import com.example.block7crudvalidation.exceptions.EntityNotFoundException;
 import com.example.block7crudvalidation.exceptions.UnprocessableEntityException;
 import com.example.block7crudvalidation.repository.PersonRepository;
 
+import com.example.block7crudvalidation.repository.ProfesorRepository;
+import com.example.block7crudvalidation.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class PersonServiceImpl implements PersonService{
     @Autowired
     PersonRepository personRepository;
+    @Autowired
+    StudentRepository studentRepository;
+    @Autowired
+    ProfesorRepository profesorRepository;
     @Override
     public PersonOutputDto addPerson(PersonInputDto person) throws UnprocessableEntityException {
         List<String> mensajes = new ArrayList<>();
@@ -41,8 +50,10 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public void deletePersonId(int id) throws EntityNotFoundException {
-        Optional<Person> posiblePesona = personRepository.findById(id);
-        if(!posiblePesona.isPresent()) {throw new EntityNotFoundException("No se encontró la persona con ID: " + id); }
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró la persona con ID: " + id));
+        studentRepository.findByidPersona(person).ifPresent(student -> studentRepository.deleteById(student.getIdStudent()));
+        profesorRepository.findByidPersona(person).ifPresent(profesor -> profesorRepository.deleteById(profesor.getIdProfesor()));
         personRepository.deleteById(id);
     }
 
@@ -50,6 +61,17 @@ public class PersonServiceImpl implements PersonService{
     public PersonOutputDto updatePerson(PersonInputDto person) {
         Optional<Person> posiblePesona = personRepository.findById(person.getIdPersona());
         if(!posiblePesona.isPresent()) {throw new EntityNotFoundException("No se encontró la persona con ID: " + person.getIdPersona()); }
+        person.setUsuario(Objects.requireNonNullElse(person.getUsuario(), posiblePesona.get().getUsuario()));
+        person.setPassword(Objects.requireNonNullElse(person.getPassword(), posiblePesona.get().getPassword()));
+        person.setName(Objects.requireNonNullElse(person.getName(), posiblePesona.get().getName()));
+        person.setSurname(Objects.requireNonNullElse(person.getSurname(), posiblePesona.get().getSurname()));
+        person.setCompanyEmail(Objects.requireNonNullElse(person.getCompanyEmail(), posiblePesona.get().getCompanyEmail()));
+        person.setPersonalEmail(Objects.requireNonNullElse(person.getPersonalEmail(), posiblePesona.get().getPersonalEmail()));
+        person.setCity(Objects.requireNonNullElse(person.getCity(), posiblePesona.get().getCity()));
+        person.setActive(Objects.requireNonNullElse(person.getActive(), posiblePesona.get().getActive()));
+        person.setCreatedDate(Objects.requireNonNullElse(person.getCreatedDate(), posiblePesona.get().getCreatedDate()));
+        person.setImageUrl(Objects.requireNonNullElse(person.getImageUrl(), posiblePesona.get().getImageUrl()));
+        person.setTerminationDate(Objects.requireNonNullElse(person.getTerminationDate(), posiblePesona.get().getTerminationDate()));
         List<String> mensajes = new ArrayList<>();
         if (person.getUsuario().length()>10) {mensajes.add("Longitud de usuario no puede ser superior a 10 caracteres");}
         else if (person.getUsuario().length()<6) {mensajes.add("Longitud de usuario no puede ser inferior a 6 caracteres");}
@@ -68,8 +90,6 @@ public class PersonServiceImpl implements PersonService{
                 .map(Person::personToPersonOutputDto).toList();
     }
 
-    // Porque no me obliga a propagar la excepcion EntityNotFoundException como la clase Exception del primer metodo
-    // Y porque no propago la excepcion en la cabecera pero aun asi la estaba cogiendo en el try catch del controlador.
     @Override
     public PersonOutputDto getPerson(int id){
         Optional<Person> posiblePesona = personRepository.findById(id);
@@ -79,12 +99,10 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public List<PersonOutputDto> getPersonsName(String name) {
-        List<Person> personas = personRepository.findAll();
+        List<Person> personas = personRepository.findByName(name);
         List<PersonOutputDto> personasOutput = new ArrayList<>();
-        for(Person p : personas){
-            if(p.getName().equals(name)){
-                personasOutput.add(p.personToPersonOutputDto());
-            }
+        for (Person p : personas) {
+            personasOutput.add(p.personToPersonOutputDto());
         }
         return personasOutput;
     }
