@@ -1,19 +1,18 @@
 package com.example.block7crudvalidation.controller.dto;
 
-import com.example.block7crudvalidation.domain.Student;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EstudianteAsignaturaInputDto {
+public class AsignaturaInputDto {
     private int idAsignatura;
-    private int idStudent;
+    private List<Integer> idStudent;
     private String asignatura;
     private String comments;
     private Date initialDate;

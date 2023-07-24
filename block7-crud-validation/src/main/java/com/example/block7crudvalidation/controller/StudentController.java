@@ -1,6 +1,8 @@
 package com.example.block7crudvalidation.controller;
 
+import com.example.block7crudvalidation.application.PersonService;
 import com.example.block7crudvalidation.application.PersonServiceImpl;
+import com.example.block7crudvalidation.application.StudentService;
 import com.example.block7crudvalidation.application.StudentServiceImpl;
 import com.example.block7crudvalidation.controller.dto.*;
 import com.example.block7crudvalidation.exceptions.EntityNotFoundException;
@@ -16,10 +18,10 @@ import java.util.Objects;
 @RequestMapping("/estudiante")
 public class StudentController {
     @Autowired
-    StudentServiceImpl studentService;
+    StudentService studentService;
 
     @Autowired
-    PersonServiceImpl personService;
+    PersonService personService;
 
     @PostMapping
     public ResponseEntity<StudentOutputDto> añadirEstudiante(@RequestBody StudentInputDto student){
@@ -29,7 +31,7 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StudentOutputDto> obtenerStudentId(@PathVariable int id,@RequestParam(defaultValue = "simple") String output) {
+    public ResponseEntity<StudentOutputDto> obtenerEstudianteId(@PathVariable int id,@RequestParam(defaultValue = "simple") String output) {
         StudentOutputDto studentOutputDto = studentService.getStudent(id);
         if(output.equals("simple")){
             return ResponseEntity.ok().body(studentOutputDto);
@@ -44,19 +46,19 @@ public class StudentController {
     }
 
     @DeleteMapping
-    public ResponseEntity<String> borrarPersonaId(@RequestParam int id){
+    public ResponseEntity<String> borrarEstudianteId(@RequestParam int id){
         studentService.deleteStudentId(id);
         return ResponseEntity.ok().body("El estudiante con id: "+id+" ha sido eliminada");
     }
     @GetMapping
-    public Iterable<StudentOutputDto> obtenerTodasLasPersonas(
+    public Iterable<StudentOutputDto> obtenerTodosLosEstudiantes(
             @RequestParam(defaultValue = "0", required = false) int pageNumber,
             @RequestParam(defaultValue = "4", required = false) int pageSize) {
         return studentService.getAllStudents(pageNumber, pageSize);
     }
 
     @PutMapping
-    public ResponseEntity<StudentOutputDto> actualizarPersona(@RequestBody StudentInputDto student){
+    public ResponseEntity<StudentOutputDto> actualizarEstudiante(@RequestBody StudentInputDto student){
         return  ResponseEntity.ok().body(studentService.updateStudent(student));
     }
 }

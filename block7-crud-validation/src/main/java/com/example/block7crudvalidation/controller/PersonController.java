@@ -1,20 +1,25 @@
 package com.example.block7crudvalidation.controller;
 
+import com.example.block7crudvalidation.application.PersonService;
 import com.example.block7crudvalidation.application.PersonServiceImpl;
-import com.example.block7crudvalidation.controller.dto.PersonInputDto;
-import com.example.block7crudvalidation.controller.dto.PersonOutputDto;
+import com.example.block7crudvalidation.controller.dto.*;
+import com.example.block7crudvalidation.domain.Person;
+import com.example.block7crudvalidation.domain.Profesor;
+import com.example.block7crudvalidation.domain.Student;
+import com.example.block7crudvalidation.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/persona")
 public class PersonController {
     @Autowired
-    PersonServiceImpl servicioPersona;
+    PersonService servicioPersona;
 
     @PostMapping
     public ResponseEntity<PersonOutputDto> añadirPersona(@RequestBody PersonInputDto person){
@@ -24,9 +29,9 @@ public class PersonController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PersonOutputDto> obtenerPersonaId(@PathVariable int id) {
-        servicioPersona.getPerson(id);
-        return ResponseEntity.ok().body(servicioPersona.getPerson(id));
+    public ResponseEntity<PersonOutputDto> obtenerPersonaId(@PathVariable int id,@RequestParam(defaultValue = "simple") String output) {
+        PersonOutputDto personOutputDto = servicioPersona.getPersonOutputDto(id, output);
+        return ResponseEntity.ok().body(personOutputDto);
     }
 
     @DeleteMapping
@@ -36,14 +41,18 @@ public class PersonController {
     }
 
     @GetMapping("/nombre/{nombre}")
-    public Iterable<PersonOutputDto> obtenerPersonasNombre(@PathVariable String nombre) {
-        return servicioPersona.getPersonsName(nombre);
+    public ResponseEntity<List<PersonOutputDto>> obtenerPersonasNombre(@RequestParam(defaultValue = "simple") String output,
+                                                                       @RequestParam(defaultValue = "0", required = false) int pageNumber,
+                                                                       @RequestParam(defaultValue = "4", required = false) int pageSize,
+                                                                       @PathVariable String nombre) {
+        return ResponseEntity.ok().body(servicioPersona.getPersonsName(pageNumber,pageSize,nombre,output));
     }
     @GetMapping
-    public Iterable<PersonOutputDto> obtenerTodasLasPersonas(
+    public ResponseEntity<List<PersonOutputDto>> obtenerTodasLasPersonas(
+            @RequestParam(defaultValue = "simple") String output,
             @RequestParam(defaultValue = "0", required = false) int pageNumber,
             @RequestParam(defaultValue = "4", required = false) int pageSize) {
-        return servicioPersona.getAllPersons(pageNumber, pageSize);
+        return ResponseEntity.ok().body(servicioPersona.getAllPersons(pageNumber,pageSize,output));
     }
 
     @PutMapping

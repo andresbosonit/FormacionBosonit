@@ -1,7 +1,6 @@
 package com.example.block7crudvalidation.application;
 
-import com.example.block7crudvalidation.controller.dto.PersonInputDto;
-import com.example.block7crudvalidation.controller.dto.PersonOutputDto;
+import com.example.block7crudvalidation.controller.dto.*;
 import com.example.block7crudvalidation.domain.Person;
 import com.example.block7crudvalidation.domain.Profesor;
 import com.example.block7crudvalidation.domain.Student;
@@ -19,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonServiceImpl implements PersonService{
@@ -57,6 +57,18 @@ public class PersonServiceImpl implements PersonService{
         personRepository.deleteById(id);
     }
 
+    public Optional<Student> getStudent(int id){
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró la persona con ID: " + id));
+        return studentRepository.findByidPersona(person);
+    }
+
+    public Optional<Profesor> getProfesor(int id){
+        Person person = personRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró la persona con ID: " + id));
+        return profesorRepository.findByidPersona(person);
+    }
+
     @Override
     public PersonOutputDto updatePerson(PersonInputDto person) {
         Optional<Person> posiblePesona = personRepository.findById(person.getIdPersona());
@@ -83,11 +95,27 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public List<PersonOutputDto> getAllPersons(int pageNumber, int pageSize) {
+    public List<PersonOutputDto> getAllPersons(int pageNumber, int pageSize, String output) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         return personRepository.findAll(pageRequest).getContent()
                 .stream()
-                .map(Person::personToPersonOutputDto).toList();
+                .map(person -> getPersonOutputDto(person.getIdPersona(), output)).toList();
+    }
+
+    @Override
+    public PersonOutputDto getPersonOutputDto(int id, String output) {
+        PersonOutputDto personOutputDto = getPerson(id);
+        if (output.equals("full")) {
+            StudentOutputDto studentOutputDto = getStudent(id).map(Student::studentToStudentOutputDto).orElse(null);
+            if (studentOutputDto != null) {
+                return new PersonStudentOutputFullDto(personOutputDto, studentOutputDto);
+            }
+            ProfesorOutputDto profesorOutputDto = getProfesor(id).map(Profesor::profesorToProfesorOutputDto).orElse(null);
+            if (profesorOutputDto != null) {
+                return new PersonProfesorOutputFullDto(personOutputDto, profesorOutputDto);
+            }
+        }
+        return personOutputDto;
     }
 
     @Override
@@ -98,12 +126,11 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public List<PersonOutputDto> getPersonsName(String name) {
-        List<Person> personas = personRepository.findByName(name);
-        List<PersonOutputDto> personasOutput = new ArrayList<>();
-        for (Person p : personas) {
-            personasOutput.add(p.personToPersonOutputDto());
-        }
-        return personasOutput;
+    public List<PersonOutputDto> getPersonsName(int pageNumber, int pageSize, String name, String output) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        List<Person> personas = personRepository.findByName(name, pageRequest);
+        return personas.stream()
+                .map(person -> getPersonOutputDto(person.getIdPersona(), output))
+                .collect(Collectors.toList());
     }
 }

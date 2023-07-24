@@ -8,31 +8,9 @@ import java.util.Date;
 
 @Data
 public class StudentOutputFullDto extends StudentOutputDto{
-    private int idPersona;
-    private String usuario;
-    private String password;
-    private String name;
-    private String surname;
-    private String companyEmail;
-    private String personalEmail;
-    private String city;
-    private Boolean active;
-    private Date createdDate;
-    private String imageUrl;
-    private Date terminationDate;
+    private PersonOutputDto personOutputDto;
     public StudentOutputFullDto(StudentOutputDto studentOutputDto, PersonOutputDto personOutputDto){
         super(studentOutputDto);
-        this.idPersona = personOutputDto.getIdPersona();
-        this.usuario = personOutputDto.getUsuario();
-        this.password = personOutputDto.getPassword();
-        this.name = personOutputDto.getName();
-        this.surname = personOutputDto.getSurname();
-        this.companyEmail = personOutputDto.getCompanyEmail();
-        this.personalEmail = personOutputDto.getPersonalEmail();
-        this.city = personOutputDto.getCity();
-        this.active = personOutputDto.getActive();
-        this.createdDate = personOutputDto.getCreatedDate();
-        this.imageUrl = personOutputDto.getImageUrl();
-        this.terminationDate = personOutputDto.getTerminationDate();
+        this.personOutputDto = personOutputDto;
     }
 }

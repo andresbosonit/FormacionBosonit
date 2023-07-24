@@ -9,7 +9,8 @@ public interface PersonService {
     PersonOutputDto addPerson(PersonInputDto person);
     void deletePersonId(int id);
     PersonOutputDto updatePerson(PersonInputDto person);
-    List<PersonOutputDto> getAllPersons(int pageNumber, int pageSize);
+    PersonOutputDto getPersonOutputDto(int id, String output);
+    List<PersonOutputDto> getAllPersons(int pageNumber, int pageSize, String output) ;
     PersonOutputDto getPerson(int id);
-    List<PersonOutputDto> getPersonsName(String name);
+    List<PersonOutputDto> getPersonsName(int pageNumber, int pageSize, String name, String output) ;
 }

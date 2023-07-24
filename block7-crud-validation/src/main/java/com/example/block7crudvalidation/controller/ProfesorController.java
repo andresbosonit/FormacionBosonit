@@ -1,8 +1,6 @@
 package com.example.block7crudvalidation.controller;
 
-import com.example.block7crudvalidation.application.EstudianteAsignaturaServiceImpl;
-import com.example.block7crudvalidation.application.ProfesorServiceImpl;
-import com.example.block7crudvalidation.application.StudentServiceImpl;
+import com.example.block7crudvalidation.application.ProfesorService;
 import com.example.block7crudvalidation.controller.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +11,7 @@ import java.net.URI;
 @RequestMapping("/profesor")
 public class ProfesorController {
     @Autowired
-    ProfesorServiceImpl profesorService;
+    ProfesorService profesorService;
 
     @PostMapping
     public ResponseEntity<ProfesorOutputDto> añadirEstudianteAsignatura(@RequestBody ProfesorInputDto profesor){

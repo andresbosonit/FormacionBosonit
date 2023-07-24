@@ -48,13 +48,17 @@ public class ProfesorServiceImpl implements ProfesorService {
 
     @Override
     public ProfesorOutputDto updateProfesor(ProfesorInputDto profesorInputDto) {
+        /*
         Optional<Profesor> posibleProfesor = profesorRepository.findById(profesorInputDto.getIdProfesor());
         if(!posibleProfesor.isPresent()) {throw new EntityNotFoundException("No se encontró el profesor con ID: " + profesorInputDto.getIdPersona());}
         Profesor profesor = new Profesor(profesorInputDto);
         profesor.setIdProfesor(Objects.requireNonNullElse(profesor.getIdProfesor(), posibleProfesor.get().getIdProfesor()));
-        profesor.setIdPersona(Objects.requireNonNullElse(profesor.getIdPersona(), posibleProfesor.get().getIdPersona()));
+        if ()
+        var pp =personRepository.findById(profesorInputDto.getIdPersona()).orElseThrow();
+        profesor.setIdPersona(Objects.requireNonNullElse(pp, posibleProfesor.get().getIdPersona()));
         profesor.setBranch(Objects.requireNonNullElse(profesor.getBranch(), posibleProfesor.get().getBranch()));
-        return profesorRepository.save(profesor).profesorToProfesorOutputDto();
+        return profesorRepository.save(profesor).profesorToProfesorOutputDto();*/
+        return null;
     }
 
     @Override

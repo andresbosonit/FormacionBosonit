@@ -5,6 +5,8 @@ import com.example.block7crudvalidation.controller.dto.StudentOutputDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -33,8 +35,10 @@ public class Student {
     @Column(name = "branch", nullable = false)
     private String branch;
 
+    @ManyToMany
+    @JoinColumn(name = "id_asignatura")
+    private List<Asignatura> asignaturas;
     public Student(StudentInputDto studentInputDto){
-        this.idStudent = studentInputDto.getIdStudent();
         this.numHoursWeek = studentInputDto.getNumHoursWeek();
         this.coments = studentInputDto.getComents();
         this.branch = studentInputDto.getBranch();
