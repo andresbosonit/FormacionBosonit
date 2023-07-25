@@ -38,9 +38,8 @@ public class ProfesorController {
         return profesorService.getAllProfesores(pageNumber, pageSize);
     }
 
-
-    @PutMapping
-    public ResponseEntity<ProfesorOutputDto> actualizarProfesor(@RequestBody ProfesorInputDto profesor){
-        return  ResponseEntity.ok().body(profesorService.updateProfesor(profesor));
+    @PutMapping("/{id}")
+    public ResponseEntity<ProfesorOutputDto> actualizarProfesor(@PathVariable Integer id, @RequestBody ProfesorInputDto profesor){
+        return  ResponseEntity.ok().body(profesorService.updateProfesor(id, profesor));
     }
 }

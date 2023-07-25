@@ -1,5 +1,6 @@
 package com.example.block7crudvalidation.controller.dto;
 
+import com.example.block7crudvalidation.domain.Profesor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,8 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AsignaturaInputDto {
-    private int idAsignatura;
-    private List<Integer> idStudent;
+    private List<Integer> students;
     private String asignatura;
     private String comments;
     private Date initialDate;

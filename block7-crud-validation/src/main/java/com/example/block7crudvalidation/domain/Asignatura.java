@@ -8,6 +8,7 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -22,7 +23,7 @@ public class Asignatura {
 
     @ManyToMany
     @JoinColumn(name = "id_student")
-    private List<Student> idStudent;
+    private List<Student> students;
 
     @Column(name = "asignatura")
     private String asignatura;
@@ -46,10 +47,9 @@ public class Asignatura {
     }
 
     public AsignaturaOutputDto AsignaturaTOAsignaturaOutputDto(){
-        List<Integer> list = new ArrayList<>();
-        for (Student student: idStudent) {
-            list.add(student.getIdStudent());
-        }
+        List<Integer> list = this.students.stream()
+                .map(Student::getIdStudent)
+                .collect(Collectors.toList());
         return new AsignaturaOutputDto(this.idAsignatura,list,this.asignatura,this.comments,this.initialDate,this.finishDate);
     }
 }

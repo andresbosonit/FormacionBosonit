@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfesorInputDto {
-    private int idProfesor;
-    private int idPersona;
+    private Integer idPersona;
     private String comments;
     private String branch;
 }

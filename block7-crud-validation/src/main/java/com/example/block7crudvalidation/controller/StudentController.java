@@ -57,8 +57,8 @@ public class StudentController {
         return studentService.getAllStudents(pageNumber, pageSize);
     }
 
-    @PutMapping
-    public ResponseEntity<StudentOutputDto> actualizarEstudiante(@RequestBody StudentInputDto student){
-        return  ResponseEntity.ok().body(studentService.updateStudent(student));
+    @PutMapping("/{id}")
+    public ResponseEntity<StudentOutputDto> actualizarEstudiante(@PathVariable Integer id,@RequestBody StudentInputDto student){
+        return  ResponseEntity.ok().body(studentService.updateStudent(id,student));
     }
 }

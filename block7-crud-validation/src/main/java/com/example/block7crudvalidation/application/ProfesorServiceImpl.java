@@ -29,36 +29,50 @@ public class ProfesorServiceImpl implements ProfesorService {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    StudentService studentService;
+
+    private Person comprobacionesProfesor(ProfesorInputDto profesorInputDto){
+        Person person = personRepository.findById(profesorInputDto.getIdPersona()).orElseThrow(() -> new EntityNotFoundException("No se encontro la persona con Id " + profesorInputDto.getIdPersona()));
+        Optional<Profesor> profesor = profesorRepository.findByPersona(person);
+        if(profesor.isPresent()){throw new EntityNotFoundException("Esa persona ya esta asociada con un profesor");}
+        Optional<Student> student = studentRepository.findByPersona(person);
+        if(student.isPresent()){throw new EntityNotFoundException("Esa persona ya esta asociada con un alumno");}
+        return person;
+    }
     @Override
     public ProfesorOutputDto addProfesor(ProfesorInputDto profesorInputDto) {
-        Person person = personRepository.findById(profesorInputDto.getIdPersona()).orElseThrow(() -> new EntityNotFoundException("No se encontro la persona con Id " + profesorInputDto.getIdPersona()));
-        Optional<Student> student = studentRepository.findByidPersona(person);
-        if(student.isPresent()){throw new EntityNotFoundException("Esa persona ya esta asociada con un alumno");}
+        Person person = comprobacionesProfesor(profesorInputDto);
         Profesor profesor = new Profesor(profesorInputDto);
-        profesor.setIdPersona(person);
+        profesor.setPersona(person);
         return profesorRepository.save(profesor).profesorToProfesorOutputDto();
     }
 
     @Override
     public void deleteProfesorId(int id) {
-        Optional<Profesor> posibleProfesor = profesorRepository.findById(id);
-        if(!posibleProfesor.isPresent()) {throw new EntityNotFoundException("No se encontró el profesor con ID: " + id); }
+        Profesor profesor = profesorRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el profesor con ID: " + id); });
+        for(Student student: profesor.getStudents()){
+            studentService.deleteStudentId(student.getIdStudent());
+        }
         profesorRepository.deleteById(id);
     }
 
     @Override
-    public ProfesorOutputDto updateProfesor(ProfesorInputDto profesorInputDto) {
-        /*
-        Optional<Profesor> posibleProfesor = profesorRepository.findById(profesorInputDto.getIdProfesor());
-        if(!posibleProfesor.isPresent()) {throw new EntityNotFoundException("No se encontró el profesor con ID: " + profesorInputDto.getIdPersona());}
-        Profesor profesor = new Profesor(profesorInputDto);
-        profesor.setIdProfesor(Objects.requireNonNullElse(profesor.getIdProfesor(), posibleProfesor.get().getIdProfesor()));
-        if ()
-        var pp =personRepository.findById(profesorInputDto.getIdPersona()).orElseThrow();
-        profesor.setIdPersona(Objects.requireNonNullElse(pp, posibleProfesor.get().getIdPersona()));
-        profesor.setBranch(Objects.requireNonNullElse(profesor.getBranch(), posibleProfesor.get().getBranch()));
-        return profesorRepository.save(profesor).profesorToProfesorOutputDto();*/
-        return null;
+    public ProfesorOutputDto updateProfesor(Integer id,ProfesorInputDto profesorInputDto) {
+        Profesor profesor = profesorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No se encontró el profesor con ID: " + id));
+        if(profesorInputDto.getIdPersona() != null){
+            Person persona = comprobacionesProfesor(profesorInputDto);
+            profesor.setPersona(persona);
+        }
+        if(profesorInputDto.getComments() != null){
+            profesor.setComments(profesorInputDto.getComments());
+        }
+        if(profesorInputDto.getBranch() != null){
+            profesor.setBranch(profesorInputDto.getBranch());
+        }
+        return profesorRepository.save(profesor).profesorToProfesorOutputDto();
     }
 
     @Override

@@ -42,9 +42,9 @@ public class AsignaturaController {
         return asignaturaService.getAllAsignatura(pageNumber, pageSize);
     }
 
-    @PutMapping
-    public ResponseEntity<AsignaturaOutputDto> actualizarAsignatura(@RequestBody AsignaturaInputDto Asignatura){
-        return  ResponseEntity.ok().body(asignaturaService.updateAsignatura(Asignatura));
+    @PutMapping("/{id}")
+    public ResponseEntity<AsignaturaOutputDto> actualizarAsignatura(@PathVariable Integer id,@RequestBody AsignaturaInputDto Asignatura){
+        return  ResponseEntity.ok().body(asignaturaService.updateAsignatura(id,Asignatura));
     }
 
     @GetMapping("/idEstudiante/{id}")

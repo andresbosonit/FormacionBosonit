@@ -6,6 +6,9 @@ import com.example.block7crudvalidation.repository.ProfesorRepository;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -19,7 +22,7 @@ public class Profesor {
 
     @OneToOne
     @JoinColumn(name = "id_persona")
-    private Person idPersona;
+    private Person persona;
 
     @Column(name = "comments")
     private String comments;
@@ -27,12 +30,16 @@ public class Profesor {
     @Column(name = "branch", nullable = false)
     private String branch;
 
+    @OneToMany
+    @JoinColumn(name = "id_student")
+    private List<Student> students = new ArrayList<>();
+
     public Profesor(ProfesorInputDto profesor){
         this.comments = profesor.getComments();
         this.branch = profesor.getBranch();
     }
 
     public ProfesorOutputDto profesorToProfesorOutputDto(){
-        return new ProfesorOutputDto(this.idProfesor,this.idPersona.getIdPersona(),this.comments,this.branch);
+        return new ProfesorOutputDto(this.idProfesor,this.persona.getIdPersona(),this.comments,this.branch);
     }
 }

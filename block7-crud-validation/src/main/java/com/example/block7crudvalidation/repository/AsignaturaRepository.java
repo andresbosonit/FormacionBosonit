@@ -10,5 +10,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface AsignaturaRepository extends JpaRepository<Asignatura, Integer> {
-    List<Asignatura> findByIdStudent(List<Student> students);
+
+    //List<Asignatura> findByStudents(List<Student> students);
 }

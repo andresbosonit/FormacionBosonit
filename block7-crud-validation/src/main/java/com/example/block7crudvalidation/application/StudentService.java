@@ -10,7 +10,7 @@ import java.util.List;
 public interface StudentService {
     StudentOutputDto addStudent(StudentInputDto student);
     void deleteStudentId(int id);
-    StudentOutputDto updateStudent(StudentInputDto student);
+    StudentOutputDto updateStudent(Integer id, StudentInputDto student);
     List<StudentOutputDto> getAllStudents(int pageNumber, int pageSize);
     StudentOutputDto getStudent(int id);
 }

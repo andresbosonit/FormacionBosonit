@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +18,6 @@ public class StudentOutputDto {
     private String coments;
     private int idProfesor;
     private String branch;
-
     public StudentOutputDto(StudentOutputDto studentOutputDto){
         this.idStudent = studentOutputDto.idStudent;
         this.idPersona = studentOutputDto.idPersona;

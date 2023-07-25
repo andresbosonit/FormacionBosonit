@@ -9,7 +9,7 @@ import java.util.List;
 public interface AsignaturaService {
     AsignaturaOutputDto addAsignatura(AsignaturaInputDto asignaturaInputDto);
     void deleteAsignaturaId(int id);
-    AsignaturaOutputDto updateAsignatura(AsignaturaInputDto asignaturaInputDto);
+    AsignaturaOutputDto updateAsignatura(Integer id, AsignaturaInputDto asignaturaInputDto);
     List<AsignaturaOutputDto> getAllAsignatura(int pageNumber, int pageSize);
     AsignaturaOutputDto getAsignatura(int id);
 

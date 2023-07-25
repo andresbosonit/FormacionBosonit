@@ -3,9 +3,11 @@ package com.example.block7crudvalidation.application;
 import com.example.block7crudvalidation.controller.dto.AsignaturaInputDto;
 import com.example.block7crudvalidation.controller.dto.AsignaturaOutputDto;
 import com.example.block7crudvalidation.domain.Asignatura;
+import com.example.block7crudvalidation.domain.Profesor;
 import com.example.block7crudvalidation.domain.Student;
 import com.example.block7crudvalidation.exceptions.EntityNotFoundException;
 import com.example.block7crudvalidation.repository.AsignaturaRepository;
+import com.example.block7crudvalidation.repository.ProfesorRepository;
 import com.example.block7crudvalidation.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -24,33 +26,64 @@ public class AsignaturaServiceImpl implements AsignaturaService {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    ProfesorRepository profesorRepository;
+
+    private List<Student> getStudentsFromIds(List<Integer> studentIds) {
+        if(studentIds != null) {
+            return studentIds.stream()
+                    .map(studentId -> studentRepository.findById(studentId)
+                            .orElseThrow(() -> new EntityNotFoundException("No se encontró el estudiante con Id " + studentId)))
+                    .collect(Collectors.toList());
+        }else{
+            return new ArrayList<>();
+        }
+    }
     @Override
     public AsignaturaOutputDto addAsignatura(AsignaturaInputDto asignaturaInputDto) {
-        List<Student> studentList = new ArrayList<>();
-        for(Integer studentId: asignaturaInputDto.getIdStudent()){
-            Student student = studentRepository.findById(studentId).orElseThrow(() -> new EntityNotFoundException("No se encontro el  con Id " + asignaturaInputDto.getIdStudent()));
-            studentList.add(student);
-        }
+        List<Student> studentList = getStudentsFromIds(asignaturaInputDto.getStudents());
         Asignatura asignatura = new Asignatura(asignaturaInputDto);
-        asignatura.setIdStudent(studentList);
-        return asignaturaRepository.save(asignatura).AsignaturaTOAsignaturaOutputDto();
+        asignatura.setStudents(studentList);
+        AsignaturaOutputDto asignaturaOutputDto = asignaturaRepository.save(asignatura).AsignaturaTOAsignaturaOutputDto();
+        studentList.forEach(student -> {
+            student.getAsignaturas().add(asignatura);
+            studentRepository.save(student);
+        });
+        return asignaturaOutputDto;
     }
 
     @Override
     public void deleteAsignaturaId(int id) {
-        Optional<Asignatura> posibleAsignatura = asignaturaRepository.findById(id);
-        if(!posibleAsignatura.isPresent()) {throw new EntityNotFoundException("No se encontró el Asignatura con ID: " + id); }
+        Asignatura asignatura = asignaturaRepository.findById(id).orElseThrow(() ->{throw new EntityNotFoundException("No se encontró el Asignatura con ID: " + id);});
+        List<Student> studentList = asignatura.getStudents();
+        studentList.forEach(student -> {
+            student.getAsignaturas().remove(asignatura);
+            studentRepository.save(student);
+        });
         asignaturaRepository.deleteById(id);
     }
 
     @Override
-    public AsignaturaOutputDto updateAsignatura(AsignaturaInputDto asignaturaInputDto) {
-        Optional<Asignatura> posibleAsignatura = asignaturaRepository.findById(asignaturaInputDto.getIdAsignatura());
-        if(!posibleAsignatura.isPresent()) {throw new EntityNotFoundException("No se encontró el Asignatura con ID: " + asignaturaInputDto.getIdAsignatura()); }
-        asignaturaInputDto.setIdAsignatura(Objects.requireNonNullElse(asignaturaInputDto.getIdAsignatura(), posibleAsignatura.get().getIdAsignatura()));
-        //Asignatura.setIdStudent(Objects.requireNonNullElse(Asignatura.getIdStudent(), posibleAsignatura.get().getIdStudent()));
-        asignaturaInputDto.setInitialDate(Objects.requireNonNullElse(asignaturaInputDto.getInitialDate(), posibleAsignatura.get().getInitialDate()));
-        return asignaturaRepository.save(new Asignatura(asignaturaInputDto)).AsignaturaTOAsignaturaOutputDto();
+    public AsignaturaOutputDto updateAsignatura(Integer id, AsignaturaInputDto asignaturaInputDto) {
+        Asignatura asignatura = asignaturaRepository.findById(id).
+            orElseThrow(() -> {throw new EntityNotFoundException("No se encontró la asignatura con ID: " + id); });
+        if(asignaturaInputDto.getStudents() != null){
+            asignatura.setStudents(getStudentsFromIds(asignaturaInputDto.getStudents()));
+        }
+        if(asignaturaInputDto.getAsignatura() != null){
+            asignatura.setAsignatura(asignaturaInputDto.getAsignatura());
+        }
+        if(asignaturaInputDto.getComments() != null){
+            asignatura.setComments(asignaturaInputDto.getComments());
+        }
+        if(asignaturaInputDto.getInitialDate() != null){
+            asignatura.setInitialDate(asignaturaInputDto.getInitialDate());
+        }
+        if(asignaturaInputDto.getFinishDate() != null){
+            asignatura.setFinishDate(asignaturaInputDto.getFinishDate());
+        }
+        return asignaturaRepository.save(asignatura).AsignaturaTOAsignaturaOutputDto();
     }
 
     @Override
@@ -63,17 +96,22 @@ public class AsignaturaServiceImpl implements AsignaturaService {
 
     @Override
     public AsignaturaOutputDto getAsignatura(int id) {
-        Optional<Asignatura> posibleAsignatura = asignaturaRepository.findById(id);
-        if(!posibleAsignatura.isPresent()) {throw new EntityNotFoundException("No se encontró el Asignatura con ID: " + id); }
-        return asignaturaRepository.getReferenceById(id).AsignaturaTOAsignaturaOutputDto();
+        Asignatura asignatura = asignaturaRepository.findById(id).orElseThrow(() ->{throw new EntityNotFoundException("No se encontró el Asignatura con ID: " + id); });
+        return asignatura.AsignaturaTOAsignaturaOutputDto();
     }
 
     @Override
     public List<AsignaturaOutputDto> getAsignaturaByIdStudent(int id) {
+
+        /*
         List<Student> studentList = new ArrayList<>();
         Student student = new Student();
         student.setIdStudent(id);
         studentList.add(student);
-        return asignaturaRepository.findByIdStudent(studentList).stream().map(asignatura -> asignatura.AsignaturaTOAsignaturaOutputDto()).collect(Collectors.toList());
+        //asignaturaRepository.findByIdStudent(studentList);
+        return null;
+        //return asignaturaRepository.findByIdStudent(studentList).stream().map(asignatura -> asignatura.AsignaturaTOAsignaturaOutputDto()).collect(Collectors.toList());
+        */
+        return null;
     }
 }

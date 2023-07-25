@@ -8,7 +8,7 @@ import java.util.List;
 public interface PersonService {
     PersonOutputDto addPerson(PersonInputDto person);
     void deletePersonId(int id);
-    PersonOutputDto updatePerson(PersonInputDto person);
+    PersonOutputDto updatePerson(Integer idPerson,PersonInputDto person);
     PersonOutputDto getPersonOutputDto(int id, String output);
     List<PersonOutputDto> getAllPersons(int pageNumber, int pageSize, String output) ;
     PersonOutputDto getPerson(int id);

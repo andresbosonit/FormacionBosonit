@@ -28,6 +28,10 @@ public class PersonServiceImpl implements PersonService{
     StudentRepository studentRepository;
     @Autowired
     ProfesorRepository profesorRepository;
+    @Autowired
+    StudentService studentService;
+    @Autowired
+    ProfesorService profesorService;
     @Override
     public PersonOutputDto addPerson(PersonInputDto person) throws UnprocessableEntityException {
         List<String> mensajes = new ArrayList<>();
@@ -52,43 +56,48 @@ public class PersonServiceImpl implements PersonService{
     public void deletePersonId(int id) throws EntityNotFoundException {
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró la persona con ID: " + id));
-        studentRepository.findByidPersona(person).ifPresent(student -> studentRepository.deleteById(student.getIdStudent()));
-        profesorRepository.findByidPersona(person).ifPresent(profesor -> profesorRepository.deleteById(profesor.getIdProfesor()));
+        studentRepository.findByPersona(person).ifPresent(student -> studentService.deleteStudentId(student.getIdStudent()));
+        profesorRepository.findByPersona(person).ifPresent(profesor -> profesorService.deleteProfesorId(profesor.getIdProfesor()));
         personRepository.deleteById(id);
     }
 
     public Optional<Student> getStudent(int id){
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró la persona con ID: " + id));
-        return studentRepository.findByidPersona(person);
+        return studentRepository.findByPersona(person);
     }
 
     public Optional<Profesor> getProfesor(int id){
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontró la persona con ID: " + id));
-        return profesorRepository.findByidPersona(person);
+        return profesorRepository.findByPersona(person);
     }
 
     @Override
-    public PersonOutputDto updatePerson(PersonInputDto person) {
-        Optional<Person> posiblePesona = personRepository.findById(person.getIdPersona());
-        if(!posiblePesona.isPresent()) {throw new EntityNotFoundException("No se encontró la persona con ID: " + person.getIdPersona()); }
-        person.setUsuario(Objects.requireNonNullElse(person.getUsuario(), posiblePesona.get().getUsuario()));
-        person.setPassword(Objects.requireNonNullElse(person.getPassword(), posiblePesona.get().getPassword()));
-        person.setName(Objects.requireNonNullElse(person.getName(), posiblePesona.get().getName()));
-        person.setSurname(Objects.requireNonNullElse(person.getSurname(), posiblePesona.get().getSurname()));
-        person.setCompanyEmail(Objects.requireNonNullElse(person.getCompanyEmail(), posiblePesona.get().getCompanyEmail()));
-        person.setPersonalEmail(Objects.requireNonNullElse(person.getPersonalEmail(), posiblePesona.get().getPersonalEmail()));
-        person.setCity(Objects.requireNonNullElse(person.getCity(), posiblePesona.get().getCity()));
-        person.setActive(Objects.requireNonNullElse(person.getActive(), posiblePesona.get().getActive()));
-        person.setCreatedDate(Objects.requireNonNullElse(person.getCreatedDate(), posiblePesona.get().getCreatedDate()));
-        person.setImageUrl(Objects.requireNonNullElse(person.getImageUrl(), posiblePesona.get().getImageUrl()));
-        person.setTerminationDate(Objects.requireNonNullElse(person.getTerminationDate(), posiblePesona.get().getTerminationDate()));
+    public PersonOutputDto updatePerson(Integer idPersona, PersonInputDto person) {
+        Person persona = personRepository.findById(idPersona).orElseThrow(() -> new EntityNotFoundException("No se encontró la persona con ID: " + idPersona));
+        persona.setUsuario(Objects.requireNonNullElse(person.getUsuario(), persona.getUsuario()));
+        persona.setPassword(Objects.requireNonNullElse(person.getPassword(), persona.getPassword()));
+        persona.setName(Objects.requireNonNullElse(person.getName(), persona.getName()));
+        if(person.getSurname() != null){
+            persona.setSurname(person.getSurname());
+        }
+        persona.setCompanyEmail(Objects.requireNonNullElse(person.getCompanyEmail(), persona.getCompanyEmail()));
+        persona.setPersonalEmail(Objects.requireNonNullElse(person.getPersonalEmail(), persona.getPersonalEmail()));
+        persona.setCity(Objects.requireNonNullElse(person.getCity(), persona.getCity()));
+        persona.setActive(Objects.requireNonNullElse(person.getActive(), persona.getActive()));
+        persona.setCreatedDate(Objects.requireNonNullElse(person.getCreatedDate(), persona.getCreatedDate()));
+        if(person.getImageUrl() != null){
+            persona.setImageUrl(person.getImageUrl());
+        }
+        if(person.getTerminationDate() != null){
+            persona.setTerminationDate(person.getTerminationDate());
+        }
         List<String> mensajes = new ArrayList<>();
-        if (person.getUsuario().length()>10) {mensajes.add("Longitud de usuario no puede ser superior a 10 caracteres");}
-        else if (person.getUsuario().length()<6) {mensajes.add("Longitud de usuario no puede ser inferior a 6 caracteres");}
+        if (persona.getUsuario().length()>10) {mensajes.add("Longitud de usuario no puede ser superior a 10 caracteres");}
+        else if (persona.getUsuario().length()<6) {mensajes.add("Longitud de usuario no puede ser inferior a 6 caracteres");}
         if(mensajes.isEmpty()){
-            return personRepository.save(new Person(person)).personToPersonOutputDto();
+            return personRepository.save(persona).personToPersonOutputDto();
         }else{
             throw new UnprocessableEntityException(mensajes.toString());
         }
@@ -120,9 +129,8 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public PersonOutputDto getPerson(int id){
-        Optional<Person> posiblePesona = personRepository.findById(id);
-        if(!posiblePesona.isPresent()) {throw new EntityNotFoundException("No se encontró la persona con ID: " + id); }
-        return personRepository.getReferenceById(id).personToPersonOutputDto();
+        Person persona = personRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró la persona con ID: " + id); });
+        return persona.personToPersonOutputDto();
     }
 
     @Override

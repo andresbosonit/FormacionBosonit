@@ -55,8 +55,8 @@ public class PersonController {
         return ResponseEntity.ok().body(servicioPersona.getAllPersons(pageNumber,pageSize,output));
     }
 
-    @PutMapping
-    public ResponseEntity<PersonOutputDto> actualizarPersona(@RequestBody PersonInputDto person){
-        return  ResponseEntity.ok().body(servicioPersona.updatePerson(person));
+    @PutMapping("/{id}")
+    public ResponseEntity<PersonOutputDto> actualizarPersona(@PathVariable Integer id, @RequestBody PersonInputDto person){
+        return  ResponseEntity.ok().body(servicioPersona.updatePerson(id, person));
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class AsignaturaOutputDto {
     private int idAsignatura;
-    private List<Integer> idStudent;
+    private List<Integer> students;
     private String asignatura;
     private String comments;
     private Date initialDate;

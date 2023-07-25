@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -20,7 +21,7 @@ public class Student {
 
     @OneToOne
     @JoinColumn(name = "id_persona")
-    private Person idPersona;
+    private Person persona;
 
     @Column(name = "num_hours_week", nullable = false)
     private int numHoursWeek;
@@ -30,7 +31,7 @@ public class Student {
 
     @ManyToOne
     @JoinColumn(name = "id_profesor")
-    private Profesor idProfesor;
+    private Profesor profesor;
 
     @Column(name = "branch", nullable = false)
     private String branch;
@@ -45,6 +46,6 @@ public class Student {
     }
 
     public StudentOutputDto studentToStudentOutputDto(){
-        return new StudentOutputDto(this.idStudent,this.idPersona.getIdPersona(),this.numHoursWeek,this.coments,this.idProfesor.getIdProfesor(),this.branch);
+        return new StudentOutputDto(this.idStudent,this.persona.getIdPersona(),this.numHoursWeek,this.coments,this.profesor.getIdProfesor(),this.branch);
     }
 }
