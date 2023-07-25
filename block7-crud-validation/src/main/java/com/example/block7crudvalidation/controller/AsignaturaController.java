@@ -50,7 +50,7 @@ public class AsignaturaController {
     @GetMapping("/idEstudiante/{id}")
     public ResponseEntity<String> obtenerAsignaturasId(@PathVariable int id) {
         List<AsignaturaOutputDto> asignaturas = asignaturaService.getAsignaturaByIdStudent(id);
-        String mensaje = "El  con id: " + id + " esta en las siguientes asignaturas:\n";
+        String mensaje = "El estudiante con id: " + id + " esta en las siguientes asignaturas:\n";
         for(AsignaturaOutputDto asignatura : asignaturas){
             mensaje += "Id de la asignatura: " + asignatura.getIdAsignatura() + " Nombre de la asignatura: " + asignatura.getAsignatura() + "\n";
         }
