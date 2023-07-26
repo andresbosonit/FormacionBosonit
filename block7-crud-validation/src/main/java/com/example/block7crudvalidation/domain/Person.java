@@ -53,6 +53,14 @@ public class Person {
     @Temporal(TemporalType.DATE)
     private Date terminationDate;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_profesor")
+    private Profesor profesor;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_student")
+    private Student student;
+
     public Person(PersonInputDto personInputDto){
         this.usuario = personInputDto.getUsuario();
         this.password = personInputDto.getPassword();

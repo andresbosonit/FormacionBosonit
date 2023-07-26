@@ -51,10 +51,7 @@ public class ProfesorServiceImpl implements ProfesorService {
 
     @Override
     public void deleteProfesorId(int id) {
-        Profesor profesor = profesorRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el profesor con ID: " + id); });
-        for(Student student: profesor.getStudents()){
-            studentService.deleteStudentId(student.getIdStudent());
-        }
+        profesorRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el profesor con ID: " + id); });
         profesorRepository.deleteById(id);
     }
 

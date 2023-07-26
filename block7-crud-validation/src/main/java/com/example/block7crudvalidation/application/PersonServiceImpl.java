@@ -54,10 +54,7 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public void deletePersonId(int id) throws EntityNotFoundException {
-        Person person = personRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No se encontró la persona con ID: " + id));
-        studentRepository.findByPersona(person).ifPresent(student -> studentService.deleteStudentId(student.getIdStudent()));
-        profesorRepository.findByPersona(person).ifPresent(profesor -> profesorService.deleteProfesorId(profesor.getIdProfesor()));
+        personRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontró la persona con ID: " + id));
         personRepository.deleteById(id);
     }
 

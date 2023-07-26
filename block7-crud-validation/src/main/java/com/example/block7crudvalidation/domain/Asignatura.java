@@ -15,14 +15,14 @@ import java.util.stream.Collectors;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name="asignaturas")
 public class Asignatura {
     @Id
     @GeneratedValue
     @Column(name = "id_asignatura")
     private int idAsignatura;
 
-    @ManyToMany
-    @JoinColumn(name = "id_student")
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Student> students;
 
     @Column(name = "asignatura")
