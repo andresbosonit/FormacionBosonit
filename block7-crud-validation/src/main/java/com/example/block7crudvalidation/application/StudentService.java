@@ -13,4 +13,6 @@ public interface StudentService {
     StudentOutputDto updateStudent(Integer id, StudentInputDto student);
     List<StudentOutputDto> getAllStudents(int pageNumber, int pageSize);
     StudentOutputDto getStudent(int id);
+    StudentOutputDto AñadirAsignaturasAEstudianteId(int id,List<Integer> asignaturas);
+    StudentOutputDto QuitarAsignaturasAEstudianteId(int id,List<Integer> asignaturas);
 }

@@ -1,0 +1,254 @@
+{
+	"info": {
+		"_postman_id": "563ec1dd-866e-47b5-82a3-f6a003251d2a",
+		"name": "CRUD-Validation-Persona Persona",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28572657"
+	},
+	"item": [
+		{
+			"name": "AñadirPersona",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "nombre",
+						"value": "andres",
+						"type": "text"
+					},
+					{
+						"key": "edad",
+						"value": "332121",
+						"type": "text"
+					},
+					{
+						"key": "poblacion",
+						"value": "logroño",
+						"type": "text"
+					},
+					{
+						"key": "Charset",
+						"value": "UTF-8",
+						"type": "text"
+					},
+					{
+						"key": "h1",
+						"value": "pepe",
+						"type": "text"
+					},
+					{
+						"key": "h2",
+						"value": "35",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"usuario\": \"anatooa\",\r\n    \"password\": \"12345678\",\r\n    \"name\": \"jesus\",\r\n    \"surname\": \"anton\",\r\n    \"companyEmail\": \"andres.anton@bosonit.com\",\r\n    \"personalEmail\": \"ndresanton9@gmail.com\",\r\n    \"city\": \"Logroño\",\r\n    \"active\": true,\r\n    \"createdDate\": \"2023-07-18\",\r\n    \"imageUrl\": \"https//:8080/url.com\",\r\n    \"terminationDate\": \"2023-07-18\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/persona",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"persona"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AñadirPersona Copy",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "nombre",
+						"value": "andres",
+						"type": "text"
+					},
+					{
+						"key": "edad",
+						"value": "332121",
+						"type": "text"
+					},
+					{
+						"key": "poblacion",
+						"value": "logroño",
+						"type": "text"
+					},
+					{
+						"key": "Charset",
+						"value": "UTF-8",
+						"type": "text"
+					},
+					{
+						"key": "h1",
+						"value": "pepe",
+						"type": "text"
+					},
+					{
+						"key": "h2",
+						"value": "35",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/persona",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"persona"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BuscarPersona",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/persona/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"persona",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BorrarPersona",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/persona?id=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"persona"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ObtenerTodasLasPersonas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/persona",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"persona"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ModificarPersona",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"idPersona\": 1,\r\n    \"usuario\": \"axzxcza\",\r\n    \"password\": \"6666666\",\r\n    \"name\": \"andres\",\r\n    \"surname\": \"anton\",\r\n    \"companyEmail\": \"andres.anton@bosonit.com\",\r\n    \"city\": \"Logroño\",\r\n    \"terminationDate\": \"2023-07-18\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/persona",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"persona"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BuscarPersonarPorNombre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/persona/nombre/jesus?output=full",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"persona",
+						"nombre",
+						"jesus"
+					],
+					"query": [
+						{
+							"key": "output",
+							"value": "full"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

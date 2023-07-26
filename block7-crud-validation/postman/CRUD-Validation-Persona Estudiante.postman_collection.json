@@ -1,13 +1,13 @@
 {
 	"info": {
-		"_postman_id": "ab5d9492-3640-40b9-b07e-8a0318af496b",
-		"name": "CRUD-Validation-Persona",
+		"_postman_id": "3ce31c8c-18e4-45c7-926a-0b4827fa15a3",
+		"name": "CRUD-Validation-Persona Estudiante",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "28572657"
 	},
 	"item": [
 		{
-			"name": "AñadirPersona",
+			"name": "AñadirEstudiante",
 			"protocolProfileBehavior": {
 				"disabledSystemHeaders": {}
 			},
@@ -52,29 +52,29 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\": \"Juan\",\r\n    \"edad\": \"21\",\r\n    \"poblacion\": \"Logroño\"\r\n}"
+					"raw": "{\r\n    \"idPersona\":2,\r\n    \"numHoursWeek\": 12,\r\n    \"coments\": \"hola\",\r\n    \"idProfesor\": 1,    \r\n    \"branch\":\"branchhhh\"\r\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/persona",
+					"raw": "http://localhost:8080/estudiante",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"persona"
+						"estudiante"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "BuscarPersona",
+			"name": "BuscarEstudiante",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/persona/3",
+					"raw": "http://localhost:8080/persona/14t",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -82,31 +82,31 @@
 					"port": "8080",
 					"path": [
 						"persona",
-						"3"
+						"14t"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "BorrarPersona",
+			"name": "BorrarEstudiante",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/persona?id=2",
+					"raw": "http://localhost:8080/estudiante?id=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"persona"
+						"estudiante"
 					],
 					"query": [
 						{
 							"key": "id",
-							"value": "2"
+							"value": "1"
 						}
 					]
 				}
@@ -114,7 +114,7 @@
 			"response": []
 		},
 		{
-			"name": "ObtenerTodasLasPersonas",
+			"name": "ObtenerTodosLosEstudiante",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -133,7 +133,7 @@
 			"response": []
 		},
 		{
-			"name": "ModificarPersona",
+			"name": "ModificarEstudiante",
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -145,38 +145,71 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"idPersona\": 4,\r\n    \"usuario\": \"anatooa\",\r\n    \"password\": \"77777777\",\r\n    \"name\": \"andres\",\r\n    \"surname\": \"anton\",\r\n    \"companyEmail\": \"andres.anton@bosonit.com\",\r\n    \"personalEmail\": \"ndresanton9@gmail.com\",\r\n    \"city\": \"Logroño\",\r\n    \"active\": true,\r\n    \"createdDate\": \"2023-07-18\",\r\n    \"imagenUrl\": \"https//:8080/url.com\",\r\n    \"terminationDate\": \"2023-07-18\"\r\n}"
+					"raw": "{\r\n    \"idStudent\":1,\r\n    \"idPersona\":2,\r\n    \"numHoursWeek\": 12,\r\n    \"coments\": \"hola\",\r\n    \"idProfesor\": 1,\r\n    \"branch\":\"branchhhh\"\r\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/persona",
+					"raw": "http://localhost:8080/estudiante",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"persona"
+						"estudiante"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "BuscarPersonarPorNombre",
+			"name": "AñadirAsignaturasAEstudiante",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/persona/nombre/Juan",
+					"raw": "http://localhost:8080/estudiante/añadirAsignaturas/1?asignaturas=2,3,4",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"persona",
-						"nombre",
-						"Juan"
+						"estudiante",
+						"añadirAsignaturas",
+						"1"
+					],
+					"query": [
+						{
+							"key": "asignaturas",
+							"value": "2,3,4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EliminarAsignaturasAEstudiante",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/estudiante/añadirAsignaturas/1?asignaturas=2,3,4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"estudiante",
+						"añadirAsignaturas",
+						"1"
+					],
+					"query": [
+						{
+							"key": "asignaturas",
+							"value": "2,3,4"
+						}
 					]
 				}
 			},

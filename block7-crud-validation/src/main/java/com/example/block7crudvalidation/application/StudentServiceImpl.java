@@ -33,6 +33,13 @@ public class StudentServiceImpl implements StudentService{
     @Autowired
     AsignaturaRepository asignaturaRepository;
 
+    private List<Asignatura> getAsignaturasFromIds(List<Integer> integerList){
+        return integerList.stream()
+                .map(idAsignatura -> asignaturaRepository.findById(idAsignatura)
+                        .orElseThrow(() -> new EntityNotFoundException("No se encontró la asignatura con ID: " + idAsignatura)))
+                .collect(Collectors.toList());
+    }
+
     @Override
     public StudentOutputDto addStudent(StudentInputDto studentInputDto) {
         Person person = personRepository.findById(studentInputDto.getIdPersona()).orElseThrow(() -> new EntityNotFoundException("No se encontro la persona con Id " + studentInputDto.getIdPersona()));
@@ -45,6 +52,8 @@ public class StudentServiceImpl implements StudentService{
         estudiante.setPersona(person);
         estudiante.setProfesor(profesor);
         StudentOutputDto studentOutputDto = studentRepository.save(estudiante).studentToStudentOutputDto();
+        profesor.getStudents().add(estudiante);
+        profesorRepository.save(profesor);
         return studentOutputDto;
     }
 
@@ -52,6 +61,11 @@ public class StudentServiceImpl implements StudentService{
     public void deleteStudentId(int id) {
         Student student = studentRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el estudiante con ID: " + id); });
         profesorRepository.findById(student.getProfesor().getIdProfesor()).orElseThrow(() -> new EntityNotFoundException("No se encontro el profesor con Id " + student.getProfesor().getIdProfesor()));
+        List<Asignatura> asignaturaList = student.getAsignaturas();
+        for(Asignatura asignatura: asignaturaList){
+            asignatura.getStudents().remove(student);
+            asignaturaRepository.save(asignatura);
+        }
         studentRepository.deleteById(id);
     }
 
@@ -96,6 +110,34 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public StudentOutputDto getStudent(int id) {
         Student student = studentRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el estudiante con ID: " + id); });
+        return student.studentToStudentOutputDto();
+    }
+
+    public StudentOutputDto AñadirAsignaturasAEstudianteId(int id,List<Integer> asignaturas){
+        Student student = studentRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el estudiante con ID: " + id); });
+        List<Asignatura> asignaturaList = getAsignaturasFromIds(asignaturas);
+        for(Asignatura asignatura: asignaturaList){
+            if(!student.getAsignaturas().contains(asignatura)){
+                asignatura.getStudents().add(student);
+                asignaturaRepository.save(asignatura);
+                student.getAsignaturas().add(asignatura);
+                studentRepository.save(student);
+            }
+        }
+        return student.studentToStudentOutputDto();
+    }
+
+    public StudentOutputDto QuitarAsignaturasAEstudianteId(int id,List<Integer> asignaturas){
+        Student student = studentRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el estudiante con ID: " + id); });
+        List<Asignatura> asignaturaList = getAsignaturasFromIds(asignaturas);
+        for(Asignatura asignatura: asignaturaList){
+            if(student.getAsignaturas().contains(asignatura)){
+                asignatura.getStudents().remove(student);
+                asignaturaRepository.save(asignatura);
+                student.getAsignaturas().remove(asignatura);
+                studentRepository.save(student);
+            }
+        }
         return student.studentToStudentOutputDto();
     }
 }

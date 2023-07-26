@@ -1,18 +1,15 @@
 package com.example.block7crudvalidation.controller;
 
 import com.example.block7crudvalidation.application.PersonService;
-import com.example.block7crudvalidation.application.PersonServiceImpl;
 import com.example.block7crudvalidation.application.StudentService;
-import com.example.block7crudvalidation.application.StudentServiceImpl;
 import com.example.block7crudvalidation.controller.dto.*;
 import com.example.block7crudvalidation.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.Objects;
+import java.util.List;
 
 @RestController
 @RequestMapping("/estudiante")
@@ -59,6 +56,16 @@ public class StudentController {
 
     @PutMapping("/{id}")
     public ResponseEntity<StudentOutputDto> actualizarEstudiante(@PathVariable Integer id,@RequestBody StudentInputDto student){
-        return  ResponseEntity.ok().body(studentService.updateStudent(id,student));
+        return ResponseEntity.ok().body(studentService.updateStudent(id,student));
+    }
+
+    @PostMapping("/añadirAsignaturas/{id}")
+    public ResponseEntity añadirAsignaturasAEstudianteId(@PathVariable int id, @RequestParam(defaultValue = "") List<Integer> asignaturas) {
+        return ResponseEntity.ok().body(studentService.AñadirAsignaturasAEstudianteId(id,asignaturas));
+    }
+
+    @DeleteMapping("/quitarAsignaturas/{id}")
+    public ResponseEntity quitarAsignaturasAEstudianteId(@PathVariable int id, @RequestParam(defaultValue = "") List<Integer> asignaturas) {
+        return ResponseEntity.ok().body(studentService.QuitarAsignaturasAEstudianteId(id,asignaturas));
     }
 }

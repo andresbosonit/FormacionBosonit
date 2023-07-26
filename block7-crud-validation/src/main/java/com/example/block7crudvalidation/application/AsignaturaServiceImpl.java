@@ -45,12 +45,22 @@ public class AsignaturaServiceImpl implements AsignaturaService {
         List<Student> studentList = getStudentsFromIds(asignaturaInputDto.getStudents());
         Asignatura asignatura = new Asignatura(asignaturaInputDto);
         asignatura.setStudents(studentList);
-        return asignaturaRepository.save(asignatura).AsignaturaTOAsignaturaOutputDto();
+        AsignaturaOutputDto asignaturaOutputDto = asignaturaRepository.save(asignatura).AsignaturaTOAsignaturaOutputDto();
+        studentList.forEach(student -> {
+            student.getAsignaturas().add(asignatura);
+            studentRepository.save(student);
+        });
+        return asignaturaOutputDto;
     }
 
     @Override
     public void deleteAsignaturaId(int id) {
-        asignaturaRepository.findById(id).orElseThrow(() ->{throw new EntityNotFoundException("No se encontró el Asignatura con ID: " + id);});
+        Asignatura asignatura = asignaturaRepository.findById(id).orElseThrow(() ->{throw new EntityNotFoundException("No se encontró el Asignatura con ID: " + id);});
+        List<Student> studentList = asignatura.getStudents();
+        studentList.forEach(student -> {
+            student.getAsignaturas().remove(asignatura);
+            studentRepository.save(student);
+        });
         asignaturaRepository.deleteById(id);
     }
 

@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="students")
 public class Student {
     @Id
     @GeneratedValue
@@ -37,7 +36,8 @@ public class Student {
     @Column(name = "branch", nullable = false)
     private String branch;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinColumn(name = "id_asignatura")
     private List<Asignatura> asignaturas;
     public Student(StudentInputDto studentInputDto){
         this.numHoursWeek = studentInputDto.getNumHoursWeek();

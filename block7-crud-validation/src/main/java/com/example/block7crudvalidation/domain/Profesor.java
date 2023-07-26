@@ -30,7 +30,7 @@ public class Profesor {
     @Column(name = "branch", nullable = false)
     private String branch;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "profesor")
+    @OneToMany(mappedBy = "profesor")
     private List<Student> students;
 
     public Profesor(ProfesorInputDto profesor){
