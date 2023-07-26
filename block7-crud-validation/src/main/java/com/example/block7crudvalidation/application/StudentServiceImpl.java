@@ -44,15 +44,16 @@ public class StudentServiceImpl implements StudentService{
         Student estudiante = new Student(studentInputDto);
         estudiante.setPersona(person);
         estudiante.setProfesor(profesor);
+        StudentOutputDto studentOutputDto = studentRepository.save(estudiante).studentToStudentOutputDto();
         profesor.getStudents().add(estudiante);
         profesorRepository.save(profesor);
-        return studentRepository.save(estudiante).studentToStudentOutputDto();
+        return studentOutputDto;
     }
 
     @Override
     public void deleteStudentId(int id) {
         Student student = studentRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el estudiante con ID: " + id); });
-        Profesor profesor = profesorRepository.findById(student.getProfesor().getIdProfesor()).orElseThrow(() -> new EntityNotFoundException("No se encontro el profesor con Id " + student.getProfesor().getIdProfesor()));
+        profesorRepository.findById(student.getProfesor().getIdProfesor()).orElseThrow(() -> new EntityNotFoundException("No se encontro el profesor con Id " + student.getProfesor().getIdProfesor()));
         List<Asignatura> asignaturaList = student.getAsignaturas();
         for(Asignatura asignatura: asignaturaList){
             asignatura.getStudents().remove(student);

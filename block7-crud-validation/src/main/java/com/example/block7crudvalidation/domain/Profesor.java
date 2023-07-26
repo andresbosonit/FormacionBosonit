@@ -30,9 +30,8 @@ public class Profesor {
     @Column(name = "branch", nullable = false)
     private String branch;
 
-    @OneToMany
-    @JoinColumn(name = "id_student")
-    private List<Student> students = new ArrayList<>();
+    @OneToMany(mappedBy = "profesor")
+    private List<Student> students;
 
     public Profesor(ProfesorInputDto profesor){
         this.comments = profesor.getComments();
