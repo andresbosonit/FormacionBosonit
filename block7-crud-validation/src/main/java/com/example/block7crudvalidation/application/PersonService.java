@@ -2,6 +2,7 @@ package com.example.block7crudvalidation.application;
 
 import com.example.block7crudvalidation.controller.dto.PersonInputDto;
 import com.example.block7crudvalidation.controller.dto.PersonOutputDto;
+import com.example.block7crudvalidation.controller.dto.ProfesorOutputDto;
 
 import java.util.List;
 

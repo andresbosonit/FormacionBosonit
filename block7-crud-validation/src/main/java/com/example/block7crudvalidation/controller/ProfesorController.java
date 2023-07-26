@@ -2,6 +2,7 @@ package com.example.block7crudvalidation.controller;
 
 import com.example.block7crudvalidation.application.ProfesorService;
 import com.example.block7crudvalidation.controller.dto.*;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,6 @@ public class ProfesorController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ProfesorOutputDto> actualizarProfesor(@PathVariable Integer id, @RequestBody ProfesorInputDto profesor){
-        return  ResponseEntity.ok().body(profesorService.updateProfesor(id, profesor));
+        return ResponseEntity.ok().body(profesorService.updateProfesor(id, profesor));
     }
 }

@@ -85,8 +85,7 @@ public class ProfesorServiceImpl implements ProfesorService {
 
     @Override
     public ProfesorOutputDto getProfesor(int id) {
-        Optional<Profesor> posiblePesona = profesorRepository.findById(id);
-        if(!posiblePesona.isPresent()) {throw new EntityNotFoundException("No se encontró el profesor con ID: " + id); }
-        return profesorRepository.getReferenceById(id).profesorToProfesorOutputDto();
+        Profesor profesor = profesorRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el profesor con ID: " + id); });
+        return profesor.profesorToProfesorOutputDto();
     }
 }
