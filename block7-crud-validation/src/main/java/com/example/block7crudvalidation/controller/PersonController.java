@@ -67,7 +67,8 @@ public class PersonController {
     public ResponseEntity<ProfesorOutputDto> getProfesor(@PathVariable int id){
         try{
             return ResponseEntity.ok().body(profesorFeignClient.getProfesor(id));
-        }catch (FeignException e){
+        }
+        catch (FeignException e){
             throw new EntityNotFoundException("No se encontró el profesor con ID: " + id);
         }
     }
