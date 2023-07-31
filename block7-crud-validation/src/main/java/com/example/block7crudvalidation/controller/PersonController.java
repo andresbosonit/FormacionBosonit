@@ -2,16 +2,21 @@ package com.example.block7crudvalidation.controller;
 
 import com.example.block7crudvalidation.application.PersonService;
 import com.example.block7crudvalidation.controller.dto.*;
+import com.example.block7crudvalidation.domain.Person;
 import com.example.block7crudvalidation.exceptions.EntityNotFoundException;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/persona")
@@ -71,5 +76,20 @@ public class PersonController {
         catch (FeignException e){
             throw new EntityNotFoundException("No se encontró el profesor con ID: " + id);
         }
+    }
+    @CrossOrigin(origins = "https://cdpn.io")
+    @PostMapping("/addperson")
+    public ResponseEntity<PersonOutputDto> añadirPersonaCors(@RequestBody PersonInputDto persona){
+        URI location = URI.create("/persona");
+        return ResponseEntity.created(location).body(servicioPersona.addPerson(persona));
+    }
+
+    @CrossOrigin(origins = "https://cdpn.io")
+    @GetMapping("/getall")
+    public ResponseEntity<List<PersonOutputDto>> getAllCors(
+            @RequestParam(defaultValue = "simple") String output,
+            @RequestParam(defaultValue = "0", required = false) int pageNumber,
+            @RequestParam(defaultValue = "4", required = false) int pageSize) {
+        return ResponseEntity.ok().body(servicioPersona.getAllPersons(pageNumber,pageSize,output));
     }
 }
