@@ -2,13 +2,11 @@ package com.example.jpacascade.application;
 
 import com.example.jpacascade.controller.dto.ClienteInputDto;
 import com.example.jpacascade.controller.dto.ClienteOutputDto;
-import com.example.jpacascade.domain.CabeceraFra;
+import com.example.jpacascade.domain.Factura;
 import com.example.jpacascade.domain.Cliente;
-import com.example.jpacascade.domain.LineasFra;
 import com.example.jpacascade.exceptions.EntityNotFoundException;
-import com.example.jpacascade.repository.CabeceraFraRepository;
+import com.example.jpacascade.repository.FacturaRepository;
 import com.example.jpacascade.repository.ClienteRepository;
-import com.example.jpacascade.repository.LineasFraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -22,13 +20,13 @@ public class ClienteServiceImpl implements ClienteService{
     @Autowired
     ClienteRepository clienteRepository;
     @Autowired
-    CabeceraFraRepository cabeceraFraRepository;
+    FacturaRepository facturaRepository;
     @Autowired
-    CabeceraFraService cabeceraFraService;
-    private List<CabeceraFra> getLineasFromIds(List<Integer> cabecerasIds) {
+    FacturaService facturaService;
+    private List<Factura> getLineasFromIds(List<Integer> cabecerasIds) {
         if(cabecerasIds != null) {
             return cabecerasIds.stream()
-                    .map(cabeceraId -> cabeceraFraRepository.findById(cabeceraId)
+                    .map(cabeceraId -> facturaRepository.findById(cabeceraId)
                             .orElseThrow(() -> new EntityNotFoundException("No se encontró la cabecera con Id " + cabeceraId)))
                     .collect(Collectors.toList());
         }else{
@@ -37,17 +35,17 @@ public class ClienteServiceImpl implements ClienteService{
     }
     @Override
     public ClienteOutputDto addCliente(ClienteInputDto clienteInputDto) {
-        List<CabeceraFra> cabeceraFraList = getLineasFromIds(clienteInputDto.getCabeceraFraIdList());
+        List<Factura> facturaList = getLineasFromIds(clienteInputDto.getFacturaIdList());
         Cliente cliente = new Cliente(clienteInputDto);
-        cliente.setCabeceraFraList(cabeceraFraList);
+        cliente.setFacturaList(facturaList);
         return clienteRepository.save(cliente).clienteToClienteOutputDto();
     }
 
     @Override
     public void deleteCliente(int id) {
         Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el cliente con ID: " + id); });
-        for(CabeceraFra cabeceraFra : cliente.getCabeceraFraList()){
-            cabeceraFraService.deleteCabecera(cabeceraFra.getIdCabeceraFra());
+        for(Factura factura : cliente.getFacturaList()){
+            facturaService.deleteFactura(factura.getIdFactura());
         }
         clienteRepository.deleteById(id);
     }
@@ -58,11 +56,11 @@ public class ClienteServiceImpl implements ClienteService{
         if(clienteInputDto.getNombre() != null){
             cliente.setNombre(clienteInputDto.getNombre());
         }
-        if(clienteInputDto.getCabeceraFraIdList() != null){
-            List<CabeceraFra> cabeceraFraList = getLineasFromIds(clienteInputDto.getCabeceraFraIdList());
-            cabeceraFraList.forEach(cabeceraFra -> {
-                cabeceraFra.setCliente(cliente);
-                cabeceraFraRepository.save(cabeceraFra);
+        if(clienteInputDto.getFacturaIdList() != null){
+            List<Factura> facturaList = getLineasFromIds(clienteInputDto.getFacturaIdList());
+            facturaList.forEach(Factura -> {
+                Factura.setCliente(cliente);
+                facturaRepository.save(Factura);
             });
         }
         return clienteRepository.save(cliente).clienteToClienteOutputDto();
@@ -80,5 +78,9 @@ public class ClienteServiceImpl implements ClienteService{
     public ClienteOutputDto getCliente(Integer id) {
         Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el cliente con ID: " + id); });
         return cliente.clienteToClienteOutputDto();
+    }
+
+    public ClienteOutputDto addClienteV2(Cliente cliente) {
+        return clienteRepository.save(cliente).clienteToClienteOutputDto();
     }
 }

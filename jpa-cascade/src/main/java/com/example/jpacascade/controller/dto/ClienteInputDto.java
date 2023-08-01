@@ -1,6 +1,5 @@
 package com.example.jpacascade.controller.dto;
 
-import com.example.jpacascade.domain.CabeceraFra;
 import lombok.*;
 
 import java.util.List;
@@ -10,5 +9,9 @@ import java.util.List;
 @NoArgsConstructor
 public class ClienteInputDto {
     private String nombre;
-    private List<Integer> cabeceraFraIdList;
+    private List<Integer> facturaIdList;
+
+    public ClienteInputDto(String nombre) {
+        this.nombre = nombre;
+    }
 }

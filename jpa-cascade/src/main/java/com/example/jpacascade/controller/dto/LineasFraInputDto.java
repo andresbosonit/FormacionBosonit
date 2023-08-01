@@ -11,5 +11,5 @@ public class LineasFraInputDto {
     private String proNomb;
     private double cantidad;
     private double precio;
-    private Integer cabeceraFraId;
+    private Integer facturaId;
 }

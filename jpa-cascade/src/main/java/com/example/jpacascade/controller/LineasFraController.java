@@ -1,7 +1,5 @@
 package com.example.jpacascade.controller;
 
-import com.example.jpacascade.application.CabeceraFraService;
-import com.example.jpacascade.application.ClienteService;
 import com.example.jpacascade.application.LineasFraService;
 import com.example.jpacascade.controller.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;

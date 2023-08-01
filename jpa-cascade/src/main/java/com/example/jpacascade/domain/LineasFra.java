@@ -1,13 +1,8 @@
 package com.example.jpacascade.domain;
-import com.example.jpacascade.controller.dto.ClienteInputDto;
-import com.example.jpacascade.controller.dto.ClienteOutputDto;
 import com.example.jpacascade.controller.dto.LineasFraInputDto;
 import com.example.jpacascade.controller.dto.LineasFraOutputDto;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -23,8 +18,8 @@ public class LineasFra {
     private double cantidad;
     private double precio;
     @ManyToOne
-    @JoinColumn(name = "id_cabecera_fra")
-    private CabeceraFra cabeceraFra;
+    @JoinColumn(name = "id_factura_fra")
+    private Factura factura;
 
     public LineasFra(LineasFraInputDto lineasFraInputDto){
         this.proNomb = lineasFraInputDto.getProNomb();
@@ -33,6 +28,6 @@ public class LineasFra {
     }
 
     public LineasFraOutputDto lineasFraToLineasFraOutputDto(){
-        return new LineasFraOutputDto(this.idLineas,this.proNomb,this.cantidad,this.precio,this.cabeceraFra.getIdCabeceraFra());
+        return new LineasFraOutputDto(this.idLineas,this.proNomb,this.cantidad,this.precio,this.factura.getIdFactura());
     }
 }

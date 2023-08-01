@@ -12,5 +12,5 @@ import java.util.List;
 public class ClienteOutputDto {
     private int idCliente;
     private String nombre;
-    private List<Integer> cabeceraFraIdList;
+    private List<Integer> facturaIdList;
 }

@@ -2,12 +2,10 @@ package com.example.jpacascade.application;
 
 import com.example.jpacascade.controller.dto.LineasFraInputDto;
 import com.example.jpacascade.controller.dto.LineasFraOutputDto;
-import com.example.jpacascade.domain.CabeceraFra;
-import com.example.jpacascade.domain.Cliente;
+import com.example.jpacascade.domain.Factura;
 import com.example.jpacascade.domain.LineasFra;
 import com.example.jpacascade.exceptions.EntityNotFoundException;
-import com.example.jpacascade.repository.CabeceraFraRepository;
-import com.example.jpacascade.repository.ClienteRepository;
+import com.example.jpacascade.repository.FacturaRepository;
 import com.example.jpacascade.repository.LineasFraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -20,21 +18,21 @@ public class LineasFraServiceImpl implements LineasFraService{
     @Autowired
     LineasFraRepository lineasFraRepository;
     @Autowired
-    CabeceraFraRepository cabeceraFraRepository;
+    FacturaRepository facturaRepository;
     @Override
     public LineasFraOutputDto addLinea(LineasFraInputDto lineasFraInputDto) {
-        CabeceraFra cabeceraFra = cabeceraFraRepository.findById(lineasFraInputDto.getCabeceraFraId()).orElseThrow(() -> new EntityNotFoundException("No se encontró la cabecera con Id " + lineasFraInputDto.getCabeceraFraId()));
+        Factura factura = facturaRepository.findById(lineasFraInputDto.getFacturaId()).orElseThrow(() -> new EntityNotFoundException("No se encontró la Factura con Id " + lineasFraInputDto.getFacturaId()));
         LineasFra lineasFra = new LineasFra(lineasFraInputDto);
-        lineasFra.setCabeceraFra(cabeceraFra);
+        lineasFra.setFactura(factura);
         return lineasFraRepository.save(lineasFra).lineasFraToLineasFraOutputDto();
     }
 
     @Override
     public void deleteLinea(int id) {
         LineasFra lineasFra = lineasFraRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontró la linea con Id " + id));
-        CabeceraFra cabeceraFra = cabeceraFraRepository.findById(lineasFra.getCabeceraFra().getIdCabeceraFra()).orElseThrow(() -> new EntityNotFoundException("No se encontró la cabecera con Id " + lineasFra.getCabeceraFra().getIdCabeceraFra()));
-        cabeceraFra.getLineasFraList().remove(lineasFra);
-        cabeceraFraRepository.save(cabeceraFra);
+        Factura factura = facturaRepository.findById(lineasFra.getFactura().getIdFactura()).orElseThrow(() -> new EntityNotFoundException("No se encontró la Factura con Id " + lineasFra.getFactura().getIdFactura()));
+        factura.getLineasFraList().remove(lineasFra);
+        facturaRepository.save(factura);
         lineasFraRepository.deleteById(id);
     }
 
@@ -50,9 +48,9 @@ public class LineasFraServiceImpl implements LineasFraService{
         if(lineasFraInputDto.getProNomb() != null){
             lineasFra.setProNomb(lineasFraInputDto.getProNomb());
         }
-        if(lineasFraInputDto.getCabeceraFraId() != null){
-            CabeceraFra cabeceraFra = cabeceraFraRepository.findById(lineasFraInputDto.getCabeceraFraId()).orElseThrow(() -> new EntityNotFoundException("No se encontró la cabecera con Id " + lineasFraInputDto.getCabeceraFraId()));
-            lineasFra.setCabeceraFra(cabeceraFra);
+        if(lineasFraInputDto.getFacturaId() != null){
+            Factura factura = facturaRepository.findById(lineasFraInputDto.getFacturaId()).orElseThrow(() -> new EntityNotFoundException("No se encontró la Factura con Id " + lineasFraInputDto.getFacturaId()));
+            lineasFra.setFactura(factura);
         }
         return lineasFraRepository.save(lineasFra).lineasFraToLineasFraOutputDto();
     }

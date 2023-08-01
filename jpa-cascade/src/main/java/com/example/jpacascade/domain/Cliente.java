@@ -1,7 +1,5 @@
 package com.example.jpacascade.domain;
 
-import com.example.jpacascade.controller.dto.CabeceraFraInputDto;
-import com.example.jpacascade.controller.dto.CabeceraFraOutputDto;
 import com.example.jpacascade.controller.dto.ClienteInputDto;
 import com.example.jpacascade.controller.dto.ClienteOutputDto;
 import jakarta.persistence.*;
@@ -22,15 +20,15 @@ public class Cliente {
     @Column(nullable = false, length = 100)
     private String nombre;
     @OneToMany(mappedBy = "cliente")
-    private List<CabeceraFra> cabeceraFraList;
+    private List<Factura> facturaList;
 
     public Cliente(ClienteInputDto clienteInputDto){
         this.nombre = clienteInputDto.getNombre();
     }
 
     public ClienteOutputDto clienteToClienteOutputDto(){
-        List<Integer> list = this.cabeceraFraList.stream()
-                .map(CabeceraFra::getIdCabeceraFra)
+        List<Integer> list = this.facturaList.stream()
+                .map(Factura::getIdFactura)
                 .collect(Collectors.toList());
         return new ClienteOutputDto(this.idCliente,this.nombre,list);
     }

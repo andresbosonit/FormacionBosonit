@@ -1,11 +1,12 @@
 package com.example.jpacascade.domain;
 
-import com.example.jpacascade.application.CabeceraFraService;
+import com.example.jpacascade.application.FacturaService;
 import com.example.jpacascade.application.ClienteService;
-import com.example.jpacascade.controller.dto.CabeceraFraInputDto;
+import com.example.jpacascade.application.LineasFraService;
 import com.example.jpacascade.controller.dto.ClienteInputDto;
-import com.example.jpacascade.controller.dto.ClienteOutputDto;
 import com.example.jpacascade.controller.dto.LineasFraInputDto;
+import com.example.jpacascade.repository.ClienteRepository;
+import com.example.jpacascade.repository.FacturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -16,38 +17,31 @@ import java.util.List;
 @Component
 public class Inicializacion implements CommandLineRunner {
     @Autowired
-    ClienteService clienteService;
+    ClienteRepository clienteRepository;
 
     @Autowired
-    CabeceraFraService cabeceraFraService;
+    FacturaRepository facturaRepository;
+    @Autowired
+    FacturaService facturaService;
+
+    @Autowired
+    LineasFraService lineasFraService;
 
     @Override
     public void run(String... args){
-        // Crear y guardar un nuevo cliente
-        /*ClienteInputDto cliente = new ClienteInputDto();
-        cliente.setCabeceraFraIdList(new ArrayList<>());
-        cliente.setNombre("Nuevo Cliente");
-        clienteService.addCliente(cliente);
+        Cliente cliente = new Cliente(new ClienteInputDto("Andres"));
+        clienteRepository.save(cliente);
 
-        // Crear una factura y dos líneas de factura
-        CabeceraFraInputDto factura = new CabeceraFraInputDto();
-        LineasFra linea1 = new LineasFra();
-        LineasFra linea2 = new LineasFra();
-        linea1.setProNomb("Producto 1");
-        linea2.setProNomb("Producto 2");
-        factura.setLineasFraIdList(new ArrayList<>());
-        factura.getLineasFraIdList().add(linea1);
-        factura.getLineasFraIdList().add(linea2);
+        Factura factura = new Factura(1, cliente, new ArrayList<>(),0);
+        LineasFra linea1 = new LineasFra(1, "linea1", 1, 1, factura);
+        LineasFra linea2 = new LineasFra(2, "linea2", 2, 2, factura);
+        List<LineasFra> lista = new ArrayList<>();
 
-        cabeceraFraService.addCabecera()
+        lista.add(linea1);
+        lista.add(linea2);
 
-        // Asignar la factura al cliente
-        cliente.getCabeceraFraIdList().add(factura.getIdCabeceraFra());
+        factura.setLineasFraList(lista);
 
-        // Agregar las líneas de factura a la factura
-
-
-        // Guardar el cliente (esto guardará la factura y las líneas de factura también debido a las relaciones y cascadas configuradas)
-        clienteService.addCliente(cliente);*/
+        facturaRepository.save(factura);
     }
 }
