@@ -10,14 +10,17 @@ import com.example.block7crudvalidation.repository.PersonRepository;
 
 import com.example.block7crudvalidation.repository.ProfesorRepository;
 import com.example.block7crudvalidation.repository.StudentRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +35,8 @@ public class PersonServiceImpl implements PersonService{
     StudentService studentService;
     @Autowired
     ProfesorService profesorService;
+    @PersistenceContext
+    private EntityManager entityManager;
     @Override
     public PersonOutputDto addPerson(PersonInputDto person) throws UnprocessableEntityException {
         List<String> mensajes = new ArrayList<>();
@@ -140,5 +145,49 @@ public class PersonServiceImpl implements PersonService{
         return personas.stream()
                 .map(person -> getPersonOutputDto(person.getIdPersona(), output))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PersonOutputDto> getCustomQuery(HashMap<String, Object> conditions) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Person> query = cb.createQuery(Person.class);
+        Root<Person> root = query.from(Person.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        conditions.forEach((field, value) -> {
+            switch (field) {
+                case "name", "lastName", "surname":
+                    predicates.add(cb.like(root.get(field),
+                            "%" + (String) value + "%"));
+                    break;
+                case "fechaCreacionSuperior":
+                    predicates.add(cb.greaterThan(root.get("fechaCreacion"), (Date) value));
+                    break;
+                case "fechaCreacionInferior":
+                    predicates.add(cb.lessThan(root.get("fechaCreacion"), (Date) value));
+                    break;
+
+            }
+        });
+
+        String orderByField = (String) conditions.get("orderBy");
+        String orderDirection = (String) conditions.get("orderDirection");
+
+        if (orderByField != null && orderDirection != null) {
+            if (orderDirection.equalsIgnoreCase("asc")) {
+                query.orderBy(cb.asc(root.get(orderByField)));
+            } else if (orderDirection.equalsIgnoreCase("desc")) {
+                query.orderBy(cb.desc(root.get(orderByField)));
+            }
+        }
+        query.select(root)
+                .where(predicates.toArray(new Predicate[predicates.size()]));
+        return entityManager
+                .createQuery(query)
+                .getResultList()
+                .stream()
+                .map(Person::personToPersonOutputDto)
+                .toList();
     }
 }

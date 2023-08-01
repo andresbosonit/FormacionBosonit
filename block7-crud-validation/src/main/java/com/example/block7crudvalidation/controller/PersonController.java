@@ -5,6 +5,7 @@ import com.example.block7crudvalidation.controller.dto.*;
 import com.example.block7crudvalidation.domain.Person;
 import com.example.block7crudvalidation.exceptions.EntityNotFoundException;
 import feign.FeignException;
+import jakarta.persistence.MapsId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -91,5 +94,18 @@ public class PersonController {
             @RequestParam(defaultValue = "0", required = false) int pageNumber,
             @RequestParam(defaultValue = "4", required = false) int pageSize) {
         return ResponseEntity.ok().body(servicioPersona.getAllPersons(pageNumber,pageSize,output));
+    }
+
+    @GetMapping("/query1")
+    public ResponseEntity<List<PersonOutputDto>> query1(@RequestParam String user,@RequestParam String name,
+                                                        @RequestParam String surname, Date fechaCreacion,
+                                                        @RequestParam String orderBy){
+        HashMap<String, Object> data = new HashMap<>();
+        if(user != null) data.put("user",user);
+        if(name != null) data.put("name",name);
+        if(surname != null) data.put("surname",surname);
+        if(fechaCreacion != null) data.put("fechaCreacion",fechaCreacion);
+        if(orderBy != null) data.put("orderBy",orderBy);
+        return pe
     }
 }

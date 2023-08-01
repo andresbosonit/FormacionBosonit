@@ -4,6 +4,7 @@ import com.example.block7crudvalidation.controller.dto.PersonInputDto;
 import com.example.block7crudvalidation.controller.dto.PersonOutputDto;
 import com.example.block7crudvalidation.controller.dto.ProfesorOutputDto;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface PersonService {
@@ -14,4 +15,5 @@ public interface PersonService {
     List<PersonOutputDto> getAllPersons(int pageNumber, int pageSize, String output) ;
     PersonOutputDto getPerson(int id);
     List<PersonOutputDto> getPersonsName(int pageNumber, int pageSize, String name, String output) ;
+    List<PersonOutputDto> getCustomQuery(HashMap<String, Object> conditions);
 }
