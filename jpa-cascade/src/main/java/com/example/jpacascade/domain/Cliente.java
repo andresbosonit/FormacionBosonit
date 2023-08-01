@@ -19,7 +19,7 @@ public class Cliente {
     private int idCliente;
     @Column(nullable = false, length = 100)
     private String nombre;
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Factura> facturaList;
 
     public Cliente(ClienteInputDto clienteInputDto){

@@ -50,29 +50,15 @@ public class FacturaServiceImpl implements FacturaService {
 
     @Override
     public void deleteFactura(int id) {
-        Factura factura = FacturaRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró la Factura con ID: " + id); });
-        for(LineasFra lineas : factura.getLineasFraList()){
-            lineasFraRepository.delete(lineas);
-        }
+        FacturaRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró la Factura con ID: " + id); });
         FacturaRepository.deleteById(id);
     }
 
     @Override
     public FacturaOutputDto updateFactura(Integer id, FacturaInputDto facturaInputDto) {
         Factura factura = FacturaRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró la Factura con ID: " + id); });
-        if(facturaInputDto.getClienteId() != null){
-            Cliente cliente = clienteRepository.findById(facturaInputDto.getClienteId()).orElseThrow(() -> new EntityNotFoundException("No se encontro el cliente con Id " + facturaInputDto.getClienteId()));
-            factura.setCliente(cliente);
-        }
         if(facturaInputDto.getImporteFra() != 0){
             factura.setImporteFra(facturaInputDto.getImporteFra());
-        }
-        if(facturaInputDto.getLineasFraIdList() != null){
-            List<LineasFra> lineasList = getLineasFromIds(facturaInputDto.getLineasFraIdList());
-            lineasList.forEach(lineas -> {
-                lineas.setFactura(factura);
-                lineasFraRepository.save(lineas);
-            });
         }
         return FacturaRepository.save(factura).facturaToFacturaOutputDto();
     }
@@ -96,9 +82,8 @@ public class FacturaServiceImpl implements FacturaService {
         if(idFra != lineasFraInputDto.getFacturaId()){
             throw new EntityNotFoundException("No coinciden los ID de la factura donde se quiere añadir la linea");
         }
-        LineasFraOutputDto lineasFraOutputDto = lineasFraService.addLinea(lineasFraInputDto);
+        lineasFraService.addLinea(lineasFraInputDto);
         FacturaOutputDto factura = FacturaRepository.findById(idFra).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró la Factura con ID: " + idFra); }).facturaToFacturaOutputDto();
-        factura.getLineasFraList().add(lineasFraOutputDto);
         return factura;
     }
 

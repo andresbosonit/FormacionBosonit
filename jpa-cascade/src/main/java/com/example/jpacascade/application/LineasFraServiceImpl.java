@@ -29,10 +29,7 @@ public class LineasFraServiceImpl implements LineasFraService{
 
     @Override
     public void deleteLinea(int id) {
-        LineasFra lineasFra = lineasFraRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontró la linea con Id " + id));
-        Factura factura = facturaRepository.findById(lineasFra.getFactura().getIdFactura()).orElseThrow(() -> new EntityNotFoundException("No se encontró la Factura con Id " + lineasFra.getFactura().getIdFactura()));
-        factura.getLineasFraList().remove(lineasFra);
-        facturaRepository.save(factura);
+        lineasFraRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se encontró la linea con Id " + id));
         lineasFraRepository.deleteById(id);
     }
 
@@ -47,10 +44,6 @@ public class LineasFraServiceImpl implements LineasFraService{
         }
         if(lineasFraInputDto.getProNomb() != null){
             lineasFra.setProNomb(lineasFraInputDto.getProNomb());
-        }
-        if(lineasFraInputDto.getFacturaId() != null){
-            Factura factura = facturaRepository.findById(lineasFraInputDto.getFacturaId()).orElseThrow(() -> new EntityNotFoundException("No se encontró la Factura con Id " + lineasFraInputDto.getFacturaId()));
-            lineasFra.setFactura(factura);
         }
         return lineasFraRepository.save(lineasFra).lineasFraToLineasFraOutputDto();
     }

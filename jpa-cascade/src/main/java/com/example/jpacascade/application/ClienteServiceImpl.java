@@ -43,10 +43,7 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public void deleteCliente(int id) {
-        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el cliente con ID: " + id); });
-        for(Factura factura : cliente.getFacturaList()){
-            facturaService.deleteFactura(factura.getIdFactura());
-        }
+        clienteRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el cliente con ID: " + id); });
         clienteRepository.deleteById(id);
     }
 
@@ -55,13 +52,6 @@ public class ClienteServiceImpl implements ClienteService{
         Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> {throw new EntityNotFoundException("No se encontró el cliente con ID: " + id); });
         if(clienteInputDto.getNombre() != null){
             cliente.setNombre(clienteInputDto.getNombre());
-        }
-        if(clienteInputDto.getFacturaIdList() != null){
-            List<Factura> facturaList = getLineasFromIds(clienteInputDto.getFacturaIdList());
-            facturaList.forEach(Factura -> {
-                Factura.setCliente(cliente);
-                facturaRepository.save(Factura);
-            });
         }
         return clienteRepository.save(cliente).clienteToClienteOutputDto();
     }
