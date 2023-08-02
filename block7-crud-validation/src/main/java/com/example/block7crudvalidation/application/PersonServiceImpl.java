@@ -152,6 +152,11 @@ public class PersonServiceImpl implements PersonService{
 
         List<Predicate> predicates = new ArrayList<>();
 
+        if(conditions.get("usuario") == null) conditions.remove("usuario");
+        if(conditions.get("name") == null)  conditions.remove("name");
+        if(conditions.get("surname") == null)  conditions.remove("surname");
+        if(conditions.get("createdDate") == null) conditions.remove("createdDate");
+
         conditions.forEach((field, value) -> {
             switch (field) {
                 case "usuario", "name", "surname":
@@ -160,6 +165,7 @@ public class PersonServiceImpl implements PersonService{
                     break;
                 case "createdDate":
                     String dateCondition = (String) conditions.get("dateCondition");
+                    dateCondition = (dateCondition == null || (!dateCondition.equals(">") && !dateCondition.equals("<") && !dateCondition.equals("="))) ? ">" : dateCondition;
                     switch (dateCondition){
                         case ">":
                             predicates.add(cb.greaterThan(root.get(field),(Date)value));
@@ -175,15 +181,18 @@ public class PersonServiceImpl implements PersonService{
             }
         });
 
-        String orderByField = (String) conditions.get("orderBy");
-        if (orderByField != null) {
-            Order orderBy;
-            if ("asc".equalsIgnoreCase((String) conditions.get("orderByDirection"))) {
-                orderBy = cb.asc(root.get(orderByField));
+        String orderBy = (String) conditions.get("orderBy");
+        if(orderBy != null && (orderBy.equals("user") || orderBy.equals("name"))){
+            orderBy = orderBy.equals("user") ? "usuario" : orderBy;
+            String orderByDirection = (String) conditions.get("orderByDirection");
+            orderByDirection = (orderByDirection != null && orderByDirection.equals("desc")) ? "desc" : "asc";
+            Order orderByQuery;
+            if ("asc".equalsIgnoreCase(orderByDirection)) {
+                orderByQuery = cb.asc(root.get(orderBy));
             } else {
-                orderBy = cb.desc(root.get(orderByField));
+                orderByQuery = cb.desc(root.get(orderBy));
             }
-            query.orderBy(orderBy);
+            query.orderBy(orderByQuery);
         }
 
         query.select(root)

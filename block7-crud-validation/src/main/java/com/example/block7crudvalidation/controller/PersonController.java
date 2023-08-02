@@ -107,24 +107,13 @@ public class PersonController {
                                                         @RequestParam int pageNumber,
                                                         @RequestParam(defaultValue = "10", required = false) int pageSize){
         HashMap<String, Object> data = new HashMap<>();
-
-        if(user != null) data.put("usuario",user);
-        if(name != null) data.put("name",name);
-        if(surname != null) data.put("surname",surname);
-
-        dateCondition = (dateCondition == null || (!dateCondition.equals(">") && !dateCondition.equals("<") && !dateCondition.equals("="))) ? ">" : dateCondition;
-        if(createdDate != null){
-            data.put("createdDate",createdDate);
-            data.put("dateCondition",dateCondition);
-        }
-
-        if(orderBy != null && (orderBy.equals("user") || orderBy.equals("name"))){
-            orderBy = orderBy.equals("user") ? "usuario" : orderBy;
-            data.put("orderBy",orderBy);
-            orderByDirection = (orderByDirection != null && orderByDirection.equals("desc")) ? "desc" : "asc";
-            data.put("orderByDirection",orderByDirection);
-        }
-
+        data.put("usuario",user);
+        data.put("name",name);
+        data.put("surname",surname);
+        data.put("createdDate",createdDate);
+        data.put("dateCondition",dateCondition);
+        data.put("orderBy",orderBy);
+        data.put("orderByDirection",orderByDirection);
         data.put("pageNumber",pageNumber);
         data.put("pageSize",pageSize);
         return ResponseEntity.ok().body(servicioPersona.getCustomQuery(data));
