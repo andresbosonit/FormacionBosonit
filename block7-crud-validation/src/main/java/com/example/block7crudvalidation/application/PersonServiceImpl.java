@@ -155,7 +155,7 @@ public class PersonServiceImpl implements PersonService{
 
         List<Predicate> predicates = new ArrayList<>();
 
-        conditions.forEach((field, value) -> {
+        /*conditions.forEach((field, value) -> {
             switch (field) {
                 case "name", "lastName", "surname":
                     predicates.add(cb.like(root.get(field),
@@ -180,7 +180,15 @@ public class PersonServiceImpl implements PersonService{
             } else if (orderDirection.equalsIgnoreCase("desc")) {
                 query.orderBy(cb.desc(root.get(orderByField)));
             }
-        }
+        }*/
+        conditions.forEach((field, value) -> {
+            switch (field) {
+                case "name", "lastName", "surname":
+                    predicates.add(cb.like(root.get(field),
+                            "%" + (String) value + "%"));
+                    break;
+            }
+        });
         query.select(root)
                 .where(predicates.toArray(new Predicate[predicates.size()]));
         return entityManager

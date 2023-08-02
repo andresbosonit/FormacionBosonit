@@ -106,6 +106,6 @@ public class PersonController {
         if(surname != null) data.put("surname",surname);
         if(fechaCreacion != null) data.put("fechaCreacion",fechaCreacion);
         if(orderBy != null) data.put("orderBy",orderBy);
-        return pe
+        return ResponseEntity.ok().body(servicioPersona.getCustomQuery(data));
     }
 }
