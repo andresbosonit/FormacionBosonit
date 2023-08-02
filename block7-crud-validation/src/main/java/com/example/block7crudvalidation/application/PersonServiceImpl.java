@@ -12,10 +12,7 @@ import com.example.block7crudvalidation.repository.ProfesorRepository;
 import com.example.block7crudvalidation.repository.StudentRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -155,44 +152,52 @@ public class PersonServiceImpl implements PersonService{
 
         List<Predicate> predicates = new ArrayList<>();
 
-        /*conditions.forEach((field, value) -> {
+        conditions.forEach((field, value) -> {
             switch (field) {
-                case "name", "lastName", "surname":
+                case "usuario", "name", "surname":
                     predicates.add(cb.like(root.get(field),
                             "%" + (String) value + "%"));
                     break;
-                case "fechaCreacionSuperior":
-                    predicates.add(cb.greaterThan(root.get("fechaCreacion"), (Date) value));
+                case "createdDate":
+                    String dateCondition = (String) conditions.get("dateCondition");
+                    switch (dateCondition){
+                        case ">":
+                            predicates.add(cb.greaterThan(root.get(field),(Date)value));
+                            break;
+                        case "=":
+                            predicates.add(cb.equal(root.get(field),(Date)value));
+                            break;
+                        case "<":
+                            predicates.add(cb.lessThan(root.get(field),(Date)value));
+                            break;
+                    }
                     break;
-                case "fechaCreacionInferior":
-                    predicates.add(cb.lessThan(root.get("fechaCreacion"), (Date) value));
-                    break;
-
             }
         });
 
         String orderByField = (String) conditions.get("orderBy");
-        String orderDirection = (String) conditions.get("orderDirection");
+        if (orderByField != null) {
+            Order orderBy;
+            if ("asc".equalsIgnoreCase((String) conditions.get("orderByDirection"))) {
+                orderBy = cb.asc(root.get(orderByField));
+            } else {
+                orderBy = cb.desc(root.get(orderByField));
+            }
+            query.orderBy(orderBy);
+        }
 
-        if (orderByField != null && orderDirection != null) {
-            if (orderDirection.equalsIgnoreCase("asc")) {
-                query.orderBy(cb.asc(root.get(orderByField)));
-            } else if (orderDirection.equalsIgnoreCase("desc")) {
-                query.orderBy(cb.desc(root.get(orderByField)));
-            }
-        }*/
-        conditions.forEach((field, value) -> {
-            switch (field) {
-                case "name", "lastName", "surname":
-                    predicates.add(cb.like(root.get(field),
-                            "%" + (String) value + "%"));
-                    break;
-            }
-        });
         query.select(root)
                 .where(predicates.toArray(new Predicate[predicates.size()]));
+
+        int pageNumber = (int) conditions.get("pageNumber");
+        int pageSize = (int) conditions.get("pageSize");
+        int firstResult = (pageNumber - 1) * pageSize;
+        int maxResults = pageSize;
+
         return entityManager
                 .createQuery(query)
+                .setFirstResult(firstResult)
+                .setMaxResults(maxResults)
                 .getResultList()
                 .stream()
                 .map(Person::personToPersonOutputDto)

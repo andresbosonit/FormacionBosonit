@@ -7,6 +7,7 @@ import com.example.block7crudvalidation.exceptions.EntityNotFoundException;
 import feign.FeignException;
 import jakarta.persistence.MapsId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -97,15 +98,35 @@ public class PersonController {
     }
 
     @GetMapping("/query1")
-    public ResponseEntity<List<PersonOutputDto>> query1(@RequestParam String user,@RequestParam String name,
-                                                        @RequestParam String surname, Date fechaCreacion,
-                                                        @RequestParam String orderBy){
+    public ResponseEntity<List<PersonOutputDto>> query1(@RequestParam(required = false) String user,@RequestParam(required = false) String name,
+                                                        @RequestParam(required = false) String surname,
+                                                        @RequestParam(required = false) @DateTimeFormat(pattern = "dd-MM-yyyy") Date createdDate,
+                                                        @RequestParam(required = false) String dateCondition,
+                                                        @RequestParam(required = false) String orderBy,
+                                                        @RequestParam(required = false) String orderByDirection,
+                                                        @RequestParam int pageNumber,
+                                                        @RequestParam(defaultValue = "10", required = false) int pageSize){
         HashMap<String, Object> data = new HashMap<>();
-        if(user != null) data.put("user",user);
+
+        if(user != null) data.put("usuario",user);
         if(name != null) data.put("name",name);
         if(surname != null) data.put("surname",surname);
-        if(fechaCreacion != null) data.put("fechaCreacion",fechaCreacion);
-        if(orderBy != null) data.put("orderBy",orderBy);
+
+        dateCondition = (dateCondition == null || (!dateCondition.equals(">") && !dateCondition.equals("<") && !dateCondition.equals("="))) ? ">" : dateCondition;
+        if(createdDate != null){
+            data.put("createdDate",createdDate);
+            data.put("dateCondition",dateCondition);
+        }
+
+        if(orderBy != null && (orderBy.equals("user") || orderBy.equals("name"))){
+            orderBy = orderBy.equals("user") ? "usuario" : orderBy;
+            data.put("orderBy",orderBy);
+            orderByDirection = (orderByDirection != null && orderByDirection.equals("desc")) ? "desc" : "asc";
+            data.put("orderByDirection",orderByDirection);
+        }
+
+        data.put("pageNumber",pageNumber);
+        data.put("pageSize",pageSize);
         return ResponseEntity.ok().body(servicioPersona.getCustomQuery(data));
     }
 }
