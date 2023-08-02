@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "684361c2-f1b1-4c8f-860f-e06d250bd168",
+		"name": "CRUD-Consultas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28572657"
+	},
+	"item": [
+		{
+			"name": "Consulta",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "AñadirPersona",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "nombre",
+						"value": "andres",
+						"type": "text"
+					},
+					{
+						"key": "edad",
+						"value": "332121",
+						"type": "text"
+					},
+					{
+						"key": "poblacion",
+						"value": "logroño",
+						"type": "text"
+					},
+					{
+						"key": "Charset",
+						"value": "UTF-8",
+						"type": "text"
+					},
+					{
+						"key": "h1",
+						"value": "pepe",
+						"type": "text"
+					},
+					{
+						"key": "h2",
+						"value": "35",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"usuario\": \"anatooa\",\r\n    \"password\": \"12345678\",\r\n    \"name\": \"jesus\",\r\n    \"surname\": \"anton\",\r\n    \"companyEmail\": \"andres.anton@bosonit.com\",\r\n    \"personalEmail\": \"ndresanton9@gmail.com\",\r\n    \"city\": \"Logroño\",\r\n    \"active\": true,\r\n    \"createdDate\": \"2023-07-18\",\r\n    \"imageUrl\": \"https//:8080/url.com\",\r\n    \"terminationDate\": \"2023-07-18\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/persona",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"persona"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AñadirPersona2",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "nombre",
+						"value": "andres",
+						"type": "text"
+					},
+					{
+						"key": "edad",
+						"value": "332121",
+						"type": "text"
+					},
+					{
+						"key": "poblacion",
+						"value": "logroño",
+						"type": "text"
+					},
+					{
+						"key": "Charset",
+						"value": "UTF-8",
+						"type": "text"
+					},
+					{
+						"key": "h1",
+						"value": "pepe",
+						"type": "text"
+					},
+					{
+						"key": "h2",
+						"value": "35",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"usuario\": \"anatooa\",\r\n    \"password\": \"12345678\",\r\n    \"name\": \"jesus\",\r\n    \"surname\": \"anton\",\r\n    \"companyEmail\": \"andres.anton@bosonit.com\",\r\n    \"personalEmail\": \"ndresanton9@gmail.com\",\r\n    \"city\": \"Logroño\",\r\n    \"active\": true,\r\n    \"createdDate\": \"2023-07-18\",\r\n    \"imageUrl\": \"https//:8080/url.com\",\r\n    \"terminationDate\": \"2023-07-18\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/persona",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"persona"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
