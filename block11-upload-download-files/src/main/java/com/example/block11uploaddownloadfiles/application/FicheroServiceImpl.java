@@ -2,6 +2,7 @@ package com.example.block11uploaddownloadfiles.application;
 
 import com.example.block11uploaddownloadfiles.domain.Fichero;
 import com.example.block11uploaddownloadfiles.repository.FicheroRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.boot.ApplicationArguments;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +22,21 @@ import java.util.Optional;
 
 @Service
 public class FicheroServiceImpl implements FicheroService{
-    private String ruta = "downloads";
+    private String ruta;
     @Autowired
     FicheroRepository ficheroRepository;
+    @Autowired
+    private ApplicationArguments args;
+    @PostConstruct
+    public void configurarRuta() {
+        String[] argumentos = args.getSourceArgs();
+        if (argumentos.length > 0) {
+            this.ruta = argumentos[0];
+        } else {
+            // Los ficheros se guardaran en la misma carpeta en la que se encuentra el jar, en mi caso la carpeta "target".
+            this.ruta = System.getProperty("user.dir");
+        }
+    }
     @Override
     public ResponseEntity<?> subirFichero(String tipo, MultipartFile file) throws IOException {
         if (!file.getOriginalFilename().endsWith(tipo)) {

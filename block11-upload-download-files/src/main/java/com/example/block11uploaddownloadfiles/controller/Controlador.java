@@ -3,7 +3,9 @@ package com.example.block11uploaddownloadfiles.controller;
 import com.example.block11uploaddownloadfiles.application.FicheroService;
 import com.example.block11uploaddownloadfiles.domain.Fichero;
 import com.example.block11uploaddownloadfiles.repository.FicheroRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,9 +20,9 @@ import java.util.Date;
 
 @RestController
 public class Controlador {
-
     @Autowired
     FicheroService ficheroService;
+
     @PostMapping("/upload/{tipo}")
     public ResponseEntity<?> subirFichero(@PathVariable String tipo,
                                           @RequestParam("file") MultipartFile file) throws IOException{
