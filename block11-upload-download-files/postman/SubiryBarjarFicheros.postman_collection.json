@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "a3e97b19-49b5-44b3-abbd-04f3f105334a",
+		"name": "SubiryBarjarFicheros",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28572657"
+	},
+	"item": [
+		{
+			"name": "ModificarPath",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/setpath?path=C:/Users/andres.anton/Downloads/block11-upload-download-files/downloads",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"setpath"
+					],
+					"query": [
+						{
+							"key": "path",
+							"value": "C:/Users/andres.anton/Downloads/block11-upload-download-files/downloads"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SubirArchivo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Users/andres.anton/Downloads/hola.txt"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/upload/txt",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"upload",
+						"txt"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DescargarFicheroId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DescargarFicheroNombre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
