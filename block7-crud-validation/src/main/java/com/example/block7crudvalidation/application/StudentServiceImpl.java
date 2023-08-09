@@ -33,7 +33,7 @@ public class StudentServiceImpl implements StudentService{
     @Autowired
     AsignaturaRepository asignaturaRepository;
 
-    private List<Asignatura> getAsignaturasFromIds(List<Integer> integerList){
+    public List<Asignatura> getAsignaturasFromIds(List<Integer> integerList){
         return integerList.stream()
                 .map(idAsignatura -> asignaturaRepository.findById(idAsignatura)
                         .orElseThrow(() -> new EntityNotFoundException("No se encontró la asignatura con ID: " + idAsignatura)))

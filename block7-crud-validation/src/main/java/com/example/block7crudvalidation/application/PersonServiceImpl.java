@@ -13,7 +13,9 @@ import com.example.block7crudvalidation.repository.StudentRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
+import org.junit.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +36,7 @@ public class PersonServiceImpl implements PersonService{
     ProfesorService profesorService;
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
     public PersonOutputDto addPerson(PersonInputDto person) throws UnprocessableEntityException {
         List<String> mensajes = new ArrayList<>();
@@ -108,6 +111,7 @@ public class PersonServiceImpl implements PersonService{
     @Override
     public List<PersonOutputDto> getAllPersons(int pageNumber, int pageSize, String output) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        personRepository.findAll(pageRequest);
         return personRepository.findAll(pageRequest).getContent()
                 .stream()
                 .map(person -> getPersonOutputDto(person.getIdPersona(), output)).toList();

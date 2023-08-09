@@ -33,7 +33,7 @@ public class ProfesorServiceImpl implements ProfesorService {
     @Autowired
     StudentService studentService;
 
-    private Person comprobacionesProfesor(ProfesorInputDto profesorInputDto){
+    public Person comprobacionesProfesor(ProfesorInputDto profesorInputDto){
         Person person = personRepository.findById(profesorInputDto.getIdPersona()).orElseThrow(() -> new EntityNotFoundException("No se encontro la persona con Id " + profesorInputDto.getIdPersona()));
         Optional<Profesor> profesor = profesorRepository.findByPersona(person);
         if(profesor.isPresent()){throw new EntityNotFoundException("Esa persona ya esta asociada con un profesor");}

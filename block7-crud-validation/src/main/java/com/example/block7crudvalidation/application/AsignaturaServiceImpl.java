@@ -27,10 +27,7 @@ public class AsignaturaServiceImpl implements AsignaturaService {
     @Autowired
     StudentRepository studentRepository;
 
-    @Autowired
-    ProfesorRepository profesorRepository;
-
-    private List<Student> getStudentsFromIds(List<Integer> studentIds) {
+    public List<Student> getStudentsFromIds(List<Integer> studentIds) {
         if(studentIds != null) {
             return studentIds.stream()
                     .map(studentId -> studentRepository.findById(studentId)

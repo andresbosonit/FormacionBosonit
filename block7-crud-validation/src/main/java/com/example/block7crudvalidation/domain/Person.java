@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -81,4 +82,17 @@ public class Person {
         this.imageUrl,
         this.terminationDate);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(usuario, person.usuario) && Objects.equals(password, person.password) && Objects.equals(name, person.name) && Objects.equals(surname, person.surname) && Objects.equals(companyEmail, person.companyEmail) && Objects.equals(personalEmail, person.personalEmail) && Objects.equals(city, person.city) && Objects.equals(active, person.active) && Objects.equals(createdDate, person.createdDate) && Objects.equals(imageUrl, person.imageUrl) && Objects.equals(terminationDate, person.terminationDate);
+    }
+
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash( usuario, password, name, surname, companyEmail, personalEmail, city, active, createdDate, imageUrl, terminationDate);
+//    }
 }
