@@ -17,9 +17,9 @@
 		<java.version>17</java.version>
 		<spring-cloud.version>2022.0.3</spring-cloud.version>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
-		<sonar.token>sqp_e38ae215848ffdfbb1b3100bd0be516b2e2e0421</sonar.token>
-		<sonar.projectKey>block7-crud-validation</sonar.projectKey>
-		<sonar.projectName>'block7-crud-validation'</sonar.projectName>
+		<sonar.token>sqp_f2ba4a8899b4b1afa300f68e633489f4074234a9</sonar.token>
+		<sonar.projectKey>block7-crud-validation1</sonar.projectKey>
+		<sonar.projectName>'block7-crud-validation1'</sonar.projectName>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -31,10 +31,6 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
@@ -44,11 +40,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- Jacoco -->
+		<!-- junit-jupiter-api -->
 		<dependency>
-			<groupId>org.jacoco</groupId>
-			<artifactId>jacoco-maven-plugin</artifactId>
-			<version>0.8.8</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.10.0</version>
+			<scope>test</scope>
 		</dependency>
 		<!-- SONARQUBE-->
 		<dependency>
@@ -66,6 +63,10 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
@@ -99,11 +100,12 @@
 				<artifactId>sonar-maven-plugin</artifactId>
 				<version>3.8.0.2131</version>
 			</plugin>
+
 			<!-- Plugin JACOCO-->
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.8</version>
+				<version>0.8.7</version>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
@@ -116,6 +118,11 @@
 						<goals>
 							<goal>report</goal>
 						</goals>
+						<configuration>
+							<excludes>
+								<exclude>**/Block7CrudValidationApplication.class</exclude>
+							</excludes>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

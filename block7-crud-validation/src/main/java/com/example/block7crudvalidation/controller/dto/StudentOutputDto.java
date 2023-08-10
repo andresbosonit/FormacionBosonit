@@ -2,9 +2,7 @@ package com.example.block7crudvalidation.controller.dto;
 
 import com.example.block7crudvalidation.domain.Person;
 import com.example.block7crudvalidation.domain.Profesor;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 

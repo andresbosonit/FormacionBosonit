@@ -13,7 +13,6 @@ import com.example.block7crudvalidation.repository.StudentRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
-import org.junit.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -149,71 +148,7 @@ public class PersonServiceImpl implements PersonService{
     }
 
     @Override
-    public List<PersonOutputDto> getCustomQuery(HashMap<String, Object> conditions) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Person> query = cb.createQuery(Person.class);
-        Root<Person> root = query.from(Person.class);
-
-        List<Predicate> predicates = new ArrayList<>();
-
-        if(conditions.get("usuario") == null) conditions.remove("usuario");
-        if(conditions.get("name") == null)  conditions.remove("name");
-        if(conditions.get("surname") == null)  conditions.remove("surname");
-        if(conditions.get("createdDate") == null) conditions.remove("createdDate");
-
-        conditions.forEach((field, value) -> {
-            switch (field) {
-                case "usuario", "name", "surname":
-                    predicates.add(cb.like(root.get(field),
-                            "%" + (String) value + "%"));
-                    break;
-                case "createdDate":
-                    String dateCondition = (String) conditions.get("dateCondition");
-                    dateCondition = (dateCondition == null || (!dateCondition.equals(">") && !dateCondition.equals("<") && !dateCondition.equals("="))) ? ">" : dateCondition;
-                    switch (dateCondition){
-                        case ">":
-                            predicates.add(cb.greaterThan(root.get(field),(Date)value));
-                            break;
-                        case "=":
-                            predicates.add(cb.equal(root.get(field),(Date)value));
-                            break;
-                        case "<":
-                            predicates.add(cb.lessThan(root.get(field),(Date)value));
-                            break;
-                    }
-                    break;
-            }
-        });
-
-        String orderBy = (String) conditions.get("orderBy");
-        if(orderBy != null && (orderBy.equals("user") || orderBy.equals("name"))){
-            orderBy = orderBy.equals("user") ? "usuario" : orderBy;
-            String orderByDirection = (String) conditions.get("orderByDirection");
-            orderByDirection = (orderByDirection != null && orderByDirection.equals("desc")) ? "desc" : "asc";
-            Order orderByQuery;
-            if ("asc".equalsIgnoreCase(orderByDirection)) {
-                orderByQuery = cb.asc(root.get(orderBy));
-            } else {
-                orderByQuery = cb.desc(root.get(orderBy));
-            }
-            query.orderBy(orderByQuery);
-        }
-
-        query.select(root)
-                .where(predicates.toArray(new Predicate[predicates.size()]));
-
-        int pageNumber = (int) conditions.get("pageNumber");
-        int pageSize = (int) conditions.get("pageSize");
-        int firstResult = (pageNumber - 1) * pageSize;
-        int maxResults = pageSize;
-
-        return entityManager
-                .createQuery(query)
-                .setFirstResult(firstResult)
-                .setMaxResults(maxResults)
-                .getResultList()
-                .stream()
-                .map(Person::personToPersonOutputDto)
-                .toList();
+    public List<PersonOutputDto> getCustomQuery(HashMap<String, Object> conditions){
+        return new ArrayList<>();
     }
 }

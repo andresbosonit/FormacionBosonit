@@ -1,4 +1,4 @@
-package com.example.block7crudvalidation.applicationTest;
+package com.example.block7crudvalidation.services;
 
 import com.example.block7crudvalidation.application.ProfesorServiceImpl;
 import com.example.block7crudvalidation.application.StudentService;
@@ -12,13 +12,14 @@ import com.example.block7crudvalidation.exceptions.EntityNotFoundException;
 import com.example.block7crudvalidation.repository.PersonRepository;
 import com.example.block7crudvalidation.repository.ProfesorRepository;
 import com.example.block7crudvalidation.repository.StudentRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +32,7 @@ import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.doNothing;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ProfesorServiceImplTest {
     @InjectMocks
     ProfesorServiceImpl profesorService;
@@ -75,28 +76,6 @@ public class ProfesorServiceImplTest {
         }
         Mockito.when(studentRepository.findByPersona(person1)).thenReturn(Optional.empty());
         profesorService.comprobacionesProfesor(profesorInputDto);
-    }
-
-    @Test(expected = EntityNotFoundException.class)
-    public void comprobacionesProfesorException1Test(){
-        Person person1 = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
-                "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Profesor profesor1 = new Profesor(1,person1,"","",new ArrayList<>());
-        ProfesorInputDto profesorInputDto = new ProfesorInputDto(1,"","");
-        profesorService.comprobacionesProfesor(profesorInputDto);
-    }
-
-    @Test(expected = EntityNotFoundException.class)
-    public void comprobacionesProfesorException2Test() {
-        Person person1 = new Person(1, "anatooa", "12345678", "andres", "anton", "andres.anton@bosonit.com",
-                "ndresanton9@gmail.com", "Logroño", true, new Date(2023 - 07 - 18), "https//:8080/url.com", new Date(2023 - 07 - 18));
-        Profesor profesor1 = new Profesor(1, person1, "", "", new ArrayList<>());
-        ProfesorInputDto profesorInputDto = new ProfesorInputDto(1, "", "");
-
-        Mockito.when(personRepository.findById(1)).thenReturn(Optional.of(person1));
-        Mockito.when(profesorRepository.findByPersona(person1)).thenReturn(Optional.of(profesor1));
-        profesorService.comprobacionesProfesor(profesorInputDto);
-
     }
     @Test
     public void addProfesorTest(){

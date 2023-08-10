@@ -1,8 +1,6 @@
-package com.example.block7crudvalidation.applicationTest;
-import com.example.block7crudvalidation.application.PersonService;
+package com.example.block7crudvalidation.services;
+
 import com.example.block7crudvalidation.application.PersonServiceImpl;
-import com.example.block7crudvalidation.application.ProfesorService;
-import com.example.block7crudvalidation.application.StudentService;
 import com.example.block7crudvalidation.controller.dto.*;
 import com.example.block7crudvalidation.domain.Person;
 import com.example.block7crudvalidation.domain.Profesor;
@@ -12,34 +10,26 @@ import com.example.block7crudvalidation.exceptions.UnprocessableEntityException;
 import com.example.block7crudvalidation.repository.PersonRepository;
 import com.example.block7crudvalidation.repository.ProfesorRepository;
 import com.example.block7crudvalidation.repository.StudentRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.List;
 
-//@RunWith(SpringRunner.class)
-@RunWith(MockitoJUnitRunner.class)
-@SpringBootTest
+
+@ExtendWith(MockitoExtension.class)
 public class PersonServiceImplTest {
     @InjectMocks
     PersonServiceImpl personService;
@@ -49,13 +39,7 @@ public class PersonServiceImplTest {
     StudentRepository studentRepository;
     @Mock
     ProfesorRepository profesorRepository;
-    @Mock
-    StudentService studentService;
-    @Mock
-    ProfesorService profesorService;
 
-    @Mock
-    private EntityManager entityManager;
     @Test
     public void addPersonTest(){
         // Person null
@@ -268,6 +252,7 @@ public class PersonServiceImplTest {
         listEsperada= new ArrayList<>();
         Assertions.assertEquals(listEsperada,listObtenida);
     }
+
     @Test
     public void getCustomQueryTest(){
     }

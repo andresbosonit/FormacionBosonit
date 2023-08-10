@@ -1,4 +1,4 @@
-package com.example.block7crudvalidation.applicationTest;
+package com.example.block7crudvalidation.services;
 
 import com.example.block7crudvalidation.application.ProfesorServiceImpl;
 import com.example.block7crudvalidation.application.StudentServiceImpl;
@@ -9,17 +9,19 @@ import com.example.block7crudvalidation.domain.Asignatura;
 import com.example.block7crudvalidation.domain.Person;
 import com.example.block7crudvalidation.domain.Profesor;
 import com.example.block7crudvalidation.domain.Student;
+import com.example.block7crudvalidation.exceptions.EntityNotFoundException;
 import com.example.block7crudvalidation.repository.AsignaturaRepository;
 import com.example.block7crudvalidation.repository.PersonRepository;
 import com.example.block7crudvalidation.repository.ProfesorRepository;
 import com.example.block7crudvalidation.repository.StudentRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +32,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class StudentServiceImplTest {
     @InjectMocks
     StudentServiceImpl studentService;
@@ -72,6 +74,36 @@ public class StudentServiceImplTest {
         StudentInputDto studentInputDto = new StudentInputDto(1,12,"",1,"");
         StudentOutputDto studentOutputDto = studentService.addStudent(studentInputDto);
         Assertions.assertEquals(studentOutputDto,student.studentToStudentOutputDto());
+    }
+
+    @Test
+    public void addStudentTestException1(){
+        Person person = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+                "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
+        Person person1 = new Person(2,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+                "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
+        Profesor profesor = new Profesor(1,person,"","",new ArrayList<>());
+        StudentInputDto studentInputDto = new StudentInputDto(1,12,"",1,"");
+        Mockito.when(personRepository.findById(1)).thenReturn(Optional.of(person));
+        Mockito.when(profesorRepository.findById(1)).thenReturn(Optional.of(profesor));
+        Mockito.when(profesorRepository.findByPersona(Mockito.any(Person.class))).thenReturn(Optional.of(profesor));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> studentService.addStudent(studentInputDto));
+    }
+
+    @Test
+    public void addStudentTestException2(){
+        Person person = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+                "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
+        Person person1 = new Person(2,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+                "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
+        Profesor profesor = new Profesor(1,person,"","",new ArrayList<>());
+        Student student = new Student(1,person1,12,"",profesor,"",new ArrayList<>());
+        Mockito.when(personRepository.findById(1)).thenReturn(Optional.of(person));
+        Mockito.when(profesorRepository.findById(1)).thenReturn(Optional.of(profesor));
+        Mockito.when(profesorRepository.findByPersona(Mockito.any(Person.class))).thenReturn(Optional.empty());
+        Mockito.when(studentRepository.findByPersona(Mockito.any(Person.class))).thenReturn(Optional.of(student));
+        StudentInputDto studentInputDto = new StudentInputDto(1,12,"",1,"");
+        Assertions.assertThrows(EntityNotFoundException.class, () -> studentService.addStudent(studentInputDto));
     }
 
     @Test

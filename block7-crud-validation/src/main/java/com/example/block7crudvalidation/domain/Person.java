@@ -91,8 +91,8 @@ public class Person {
         return Objects.equals(usuario, person.usuario) && Objects.equals(password, person.password) && Objects.equals(name, person.name) && Objects.equals(surname, person.surname) && Objects.equals(companyEmail, person.companyEmail) && Objects.equals(personalEmail, person.personalEmail) && Objects.equals(city, person.city) && Objects.equals(active, person.active) && Objects.equals(createdDate, person.createdDate) && Objects.equals(imageUrl, person.imageUrl) && Objects.equals(terminationDate, person.terminationDate);
     }
 
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash( usuario, password, name, surname, companyEmail, personalEmail, city, active, createdDate, imageUrl, terminationDate);
-//    }
+    @Override
+    public int hashCode() {
+        return Objects.hash( usuario, password, name, surname, companyEmail, personalEmail, city, active, createdDate, imageUrl, terminationDate);
+    }
 }
