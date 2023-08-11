@@ -59,9 +59,9 @@ public class StudentServiceImplTest {
     }
     @Test
     public void addStudentTest(){
-        Person person = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person person1 = new Person(2,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(2,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor = new Profesor(1,person,"","",new ArrayList<>());
         Student student = new Student(1,person1,12,"",profesor,"",new ArrayList<>());
@@ -78,9 +78,9 @@ public class StudentServiceImplTest {
 
     @Test
     public void addStudentTestException1(){
-        Person person = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person person1 = new Person(2,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(2,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor = new Profesor(1,person,"","",new ArrayList<>());
         StudentInputDto studentInputDto = new StudentInputDto(1,12,"",1,"");
@@ -92,9 +92,9 @@ public class StudentServiceImplTest {
 
     @Test
     public void addStudentTestException2(){
-        Person person = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person person1 = new Person(2,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(2,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor = new Profesor(1,person,"","",new ArrayList<>());
         Student student = new Student(1,person1,12,"",profesor,"",new ArrayList<>());
@@ -108,9 +108,9 @@ public class StudentServiceImplTest {
 
     @Test
     public void deleteStudentIdTest(){
-        Person person = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person person1 = new Person(2,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(2,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor = new Profesor(1,person,"","",new ArrayList<>());
         Student student = new Student(1,person1,12,"",profesor,"",new ArrayList<>());
@@ -120,9 +120,9 @@ public class StudentServiceImplTest {
     }
     @Test
     public void updateStudentTest(){
-        Person person = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person person1 = new Person(2,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(2,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor = new Profesor(1,person,"","",new ArrayList<>());
         Student student = new Student(1,person1,12,"",profesor,"",new ArrayList<>());
@@ -137,9 +137,9 @@ public class StudentServiceImplTest {
     }
     @Test
     public void getAllStudentsTest(){
-        Person person = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person person1 = new Person(2,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(2,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor = new Profesor(1,person,"","",new ArrayList<>());
         Student student = new Student(1,person1,12,"",profesor,"",new ArrayList<>());
@@ -155,9 +155,9 @@ public class StudentServiceImplTest {
     }
     @Test
     public void getStudentTest(){
-        Person person = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person person1 = new Person(2,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(2,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor = new Profesor(1,person,"","",new ArrayList<>());
         Student student = new Student(1,person1,12,"",profesor,"",new ArrayList<>());
@@ -167,9 +167,9 @@ public class StudentServiceImplTest {
     }
     @Test
     public void AñadirAsignaturasAEstudianteIdTest(){
-        Person person = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person person1 = new Person(2,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(2,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor = new Profesor(1,person,"","",new ArrayList<>());
         Student student = new Student(1,person1,12,"",profesor,"",new ArrayList<>());
@@ -182,9 +182,9 @@ public class StudentServiceImplTest {
     }
     @Test
     public void QuitarAsignaturasAEstudianteIdTest(){
-        Person person = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person person1 = new Person(2,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(2,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor = new Profesor(1,person,"","",new ArrayList<>());
         Asignatura asignatura = new Asignatura(1,new ArrayList<>(),"","",new Date(),new Date());

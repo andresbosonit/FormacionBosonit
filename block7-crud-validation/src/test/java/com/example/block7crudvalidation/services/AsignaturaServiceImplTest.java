@@ -44,9 +44,9 @@ public class AsignaturaServiceImplTest {
     StudentRepository studentRepository;
     @Test
     public void addAsignaturaTest(){
-        Person person1 = new Person(1,"pepepe","12345667","hola","pepe","fa","fs","f",true,new Date(),"fs",new Date());
-        Person person2 = new Person(2,"ururur","12345667","hola","pepe","fa","fs","f",true,new Date(),"fs",new Date());
-        Person person3 = new Person(3,"ururur","12345667","hola","pepe","fa","fs","f",true,new Date(),"fs",new Date());
+        Person person1 = new Person(1,"pepepe","12345667",true,"hola","pepe","fa","fs","f",true,new Date(),"fs",new Date());
+        Person person2 = new Person(2,"ururur","12345667",true,"hola","pepe","fa","fs","f",true,new Date(),"fs",new Date());
+        Person person3 = new Person(3,"ururur","12345667",true,"hola","pepe","fa","fs","f",true,new Date(),"fs",new Date());
         Profesor profesor = new Profesor(1,person3,"","",new ArrayList<>());
 
         List<Student> studentList = new ArrayList<>();

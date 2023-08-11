@@ -48,7 +48,7 @@ public class ProfesorServiceImplTest {
 
     @Test
     public void comprobacionesProfesorTest(){
-        Person person1 = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor1 = new Profesor(1,person1,"","",new ArrayList<>());
         ProfesorInputDto profesorInputDto = new ProfesorInputDto(1,"","");
@@ -79,7 +79,7 @@ public class ProfesorServiceImplTest {
     }
     @Test
     public void addProfesorTest(){
-        Person person1 = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor1 = new Profesor(1,person1,"","",new ArrayList<>());
         Mockito.when(personRepository.findById(1)).thenReturn(Optional.of(person1));
@@ -90,7 +90,7 @@ public class ProfesorServiceImplTest {
     }
     @Test
     public void deleteProfesorIdTest(){
-        Person person1 = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor1 = new Profesor(1,person1,"","",new ArrayList<>());
         Mockito.when(profesorRepository.findById(1)).thenReturn(Optional.of(profesor1));
@@ -105,7 +105,7 @@ public class ProfesorServiceImplTest {
     }
     @Test
     public void updateProfesorTest(){
-        Person person1 = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor1 = new Profesor(1,person1,"","",new ArrayList<>());
         ProfesorInputDto profesorInputDto = new ProfesorInputDto(null,"","");
@@ -115,9 +115,9 @@ public class ProfesorServiceImplTest {
     }
     @Test
     public void getAllProfesoresTest(){
-        Person person1 = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person person2 = new Person(2,"anatooa","12345678","felix","anton","andres.anton@bosonit.com",
+        Person person2 = new Person(2,"anatooa","12345678",true,"felix","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor1 = new Profesor(1,person1,"","",new ArrayList<>());
         Profesor profesor2 = new Profesor(1,person2,"","",new ArrayList<>());
@@ -142,7 +142,7 @@ public class ProfesorServiceImplTest {
     @Test
     public void getProfesorTest(){
         // Obtener profesor existente
-        Person person1 = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Profesor profesor = new Profesor(1,person1,"","",new ArrayList<>());
         Mockito.when(profesorRepository.findById(1)).thenReturn(Optional.of(profesor));

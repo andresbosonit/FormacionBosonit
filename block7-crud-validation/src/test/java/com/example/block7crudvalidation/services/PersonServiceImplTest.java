@@ -51,7 +51,7 @@ public class PersonServiceImplTest {
         }
 
         // Longitud usuario < 6
-        PersonInputDto personUsuarioLenght = new PersonInputDto("jesus","12345678","jesus","anton","andres.anton@bosonit.com",
+        PersonInputDto personUsuarioLenght = new PersonInputDto("jesus","12345678",true,"jesus","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         try{
             personService.addPerson(personUsuarioLenght);
@@ -68,13 +68,13 @@ public class PersonServiceImplTest {
         }
 
         // Inserción correcta
-        Person person = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
 
-        PersonInputDto personInputDto = new PersonInputDto("anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        PersonInputDto personInputDto = new PersonInputDto("anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
 
-        PersonOutputDto personOutputDto = new PersonOutputDto(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        PersonOutputDto personOutputDto = new PersonOutputDto(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
 
         Mockito.when(personRepository.save(new Person(personInputDto))).thenReturn(person);
@@ -86,7 +86,7 @@ public class PersonServiceImplTest {
     @Test
     public void deletePersonIdTest(){
         // Borrando persona existente
-        Person person = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Mockito.when(personRepository.findById(1)).thenReturn(Optional.of(person));
         doNothing().when(personRepository).deleteById(1);
@@ -101,7 +101,7 @@ public class PersonServiceImplTest {
     }
     @Test
     public void updatePersonTest(){
-        PersonInputDto personInputDto = new PersonInputDto("anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        PersonInputDto personInputDto = new PersonInputDto("anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         // Persona no encontrada
         try{
@@ -113,7 +113,7 @@ public class PersonServiceImplTest {
 
         // Intentando cambiar la longitud del usuario a menos de 6
         personInputDto.setUsuario("je");
-        Person person = new Person(1, "anatooa", "12345678", "andres", "anton", "andres.anton@bosonit.com",
+        Person person = new Person(1, "anatooa", "12345678",true, "andres", "anton", "andres.anton@bosonit.com",
                 "ndresanton9@gmail.com", "Logroño", true, new Date(2023-07-18), "https//:8080/url.com", new Date(2023-07-18));
         Mockito.when(personRepository.findById(1)).thenReturn(Optional.of(person));
         try{
@@ -131,7 +131,7 @@ public class PersonServiceImplTest {
         }
 
         // Actualizando de manera correcta
-        PersonOutputDto personOutputDto = new PersonOutputDto(1, "jesusito", "12345678", "andres", "anton", "andres.anton@bosonit.com",
+        PersonOutputDto personOutputDto = new PersonOutputDto(1, "jesusito", "12345678",true, "andres", "anton", "andres.anton@bosonit.com",
                 "ndresanton9@gmail.com", "Logroño", true, new Date(2023-07-18), "https//:8080/url.com", new Date(2023-07-18));
         personInputDto.setUsuario("jesusito");
         Mockito.when(personRepository.save(new Person(personInputDto))).thenReturn(person);
@@ -140,11 +140,11 @@ public class PersonServiceImplTest {
     }
     @Test
     public void getPersonOutputDtoTest(){
-        Person personStudent = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person personStudent = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person personProfesor = new Person(2,"pepeee","12345678","pepe","perez","andres.anton@bosonit.com",
+        Person personProfesor = new Person(2,"pepeee","12345678",true,"pepe","perez","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person person = new Person(3,"ramonnn","12345678","ramon","perez","andres.anton@bosonit.com",
+        Person person = new Person(3,"ramonnn","12345678",true,"ramon","perez","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
 
         Mockito.when(personRepository.findById(1)).thenReturn(Optional.of(personStudent));
@@ -152,7 +152,7 @@ public class PersonServiceImplTest {
         Mockito.when(personRepository.findById(3)).thenReturn(Optional.of(person));
 
         // Cuando output es simple
-        PersonOutputDto personOutputDto = new PersonOutputDto(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        PersonOutputDto personOutputDto = new PersonOutputDto(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         PersonOutputDto personOutputDtoCreado = personService.getPersonOutputDto(1,"simple");
         Assertions.assertEquals(personOutputDtoCreado,personOutputDto);
@@ -185,9 +185,9 @@ public class PersonServiceImplTest {
     @Test
     public void getAllPersonsTest(){
         // Lista con dos personas y que devuelva las dos
-        Person person1 = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person person2 = new Person(2,"anatooa","12345678","felix","anton","andres.anton@bosonit.com",
+        Person person2 = new Person(2,"anatooa","12345678",true,"felix","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
 
         List<Person> listEntrada = new ArrayList<>();
@@ -214,7 +214,7 @@ public class PersonServiceImplTest {
     @Test
     public void getPersonTest(){
         // Obtener persona existente
-        Person person1 = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
         Mockito.when(personRepository.findById(1)).thenReturn(Optional.of(person1));
         PersonOutputDto personOutputDto = personService.getPerson(1);
@@ -230,9 +230,9 @@ public class PersonServiceImplTest {
     @Test
     public void getPersonsNameTest(){
         // Lista con dos personas que se llaman igual
-        Person person1 = new Person(1,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person1 = new Person(1,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
-        Person person2 = new Person(2,"anatooa","12345678","andres","anton","andres.anton@bosonit.com",
+        Person person2 = new Person(2,"anatooa","12345678",true,"andres","anton","andres.anton@bosonit.com",
                 "ndresanton9@gmail.com","Logroño",true,new Date(2023-07-18),"https//:8080/url.com",new Date(2023-07-18));
 
         List<Person> listEntrada = new ArrayList<>();

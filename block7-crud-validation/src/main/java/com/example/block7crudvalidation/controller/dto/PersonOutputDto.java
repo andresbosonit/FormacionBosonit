@@ -12,6 +12,7 @@ public class PersonOutputDto {
     private Integer idPersona;
     private String usuario;
     private String password;
+    private Boolean admin;
     private String name;
     private String surname;
     private String companyEmail;
@@ -26,6 +27,7 @@ public class PersonOutputDto {
         this.idPersona = personOutputDto.getIdPersona();
         this.usuario = personOutputDto.getUsuario();
         this.password = personOutputDto.getPassword();
+        this.admin = personOutputDto.getAdmin();
         this.name = personOutputDto.getName();
         this.surname = personOutputDto.getSurname();
         this.companyEmail = personOutputDto.getCompanyEmail();

@@ -11,6 +11,7 @@ import java.util.Date;
 public class PersonInputDto {
     private String usuario;
     private String password;
+    private Boolean admin;
     private String name;
     private String surname;
     private String companyEmail;

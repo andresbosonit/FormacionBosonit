@@ -25,6 +25,9 @@ public class Person {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "admin")
+    private Boolean admin;
+
     @Column(name = "name")
     private String name;
 
@@ -57,6 +60,7 @@ public class Person {
     public Person(PersonInputDto personInputDto){
         this.usuario = personInputDto.getUsuario();
         this.password = personInputDto.getPassword();
+        this.admin = personInputDto.getAdmin();
         this.name = personInputDto.getName();
         this.surname = personInputDto.getSurname();
         this.companyEmail = personInputDto.getCompanyEmail();
@@ -72,6 +76,7 @@ public class Person {
         return new PersonOutputDto(this.idPersona,
         this.usuario,
         this.password,
+        this.admin,
         this.name,
         this.surname,
         this.companyEmail,
