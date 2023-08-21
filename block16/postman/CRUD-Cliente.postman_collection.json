@@ -1,19 +1,19 @@
 {
 	"info": {
-		"_postman_id": "ff598b7b-aa52-4896-bee4-83db9efe77b6",
-		"name": "CRUD-Viaje",
+		"_postman_id": "0da1f4bc-77d2-41c5-b1eb-44c80318693d",
+		"name": "CRUD-Cliente",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "28572657"
 	},
 	"item": [
 		{
-			"name": "CrearViaje",
+			"name": "CrearCliente",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"nombre\": \"andres\",\r\n    \"apellido\": \"anton\",\r\n    \"edad\": 22,\r\n    \"email\": \"ffff\",\r\n    \"telefono\" : \"666555666\"\r\n}",
+					"raw": "{\r\n    \"nombre\": \"andres\",\r\n    \"apellido\": \"anton\",\r\n    \"edad\": 22,\r\n    \"telefono\" : \"666555666\",\r\n    \"listaViajes\" : []\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -35,7 +35,7 @@
 			"response": []
 		},
 		{
-			"name": "BuscarViaje",
+			"name": "BuscarCliente",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -55,19 +55,19 @@
 			"response": []
 		},
 		{
-			"name": "BorrarViaje",
+			"name": "BorrarCliente",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/viaje?id=1",
+					"raw": "http://localhost:8080/cliente?id=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"viaje"
+						"cliente"
 					],
 					"query": [
 						{
@@ -80,7 +80,7 @@
 			"response": []
 		},
 		{
-			"name": "ModificarViaje",
+			"name": "ModificarCliente",
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -94,14 +94,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/viaje/2",
+					"raw": "http://localhost:8080/cliente/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"viaje",
+						"cliente",
 						"2"
 					]
 				}
@@ -109,19 +109,29 @@
 			"response": []
 		},
 		{
-			"name": "TodosLosViajes",
+			"name": "TodosLosClientes",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "ContarPasajeros",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/viaje",
+					"raw": "http://localhost:8080/cliente/count/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"viaje"
+						"cliente",
+						"count",
+						"1"
 					]
 				}
 			},
