@@ -12,12 +12,12 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8081/generateTicket/1/1",
+					"raw": "http://localhost:8080/generateTicket/1/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "8081",
+					"port": "8080",
 					"path": [
 						"generateTicket",
 						"1",
