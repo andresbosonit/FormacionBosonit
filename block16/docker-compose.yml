@@ -1,0 +1,43 @@
+version: '3'
+services:
+  netflix-eureka-naming-server:
+    build:
+      context: ./netflix-eureka-naming-server
+    ports:
+      - "8761:8761"
+    networks:
+      - eureka_net
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      UREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://localhost:8761/eureka
+    networks:
+      - eureka_net
+
+  trip-backend:
+    build:
+      context: ./trip-backend
+    ports:
+      - "8000:8000"
+    environment:
+      UREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://localhost:8761/eureka
+    networks:
+      - eureka_net
+
+  trip-frontend:
+    build:
+      context: ./trip-frontend
+    ports:
+      - "8001:8001"
+    environment:
+      UREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://localhost:8761/eureka
+    networks:
+      - eureka_net
+
+networks:
+  eureka_net:
+    driver: bridge

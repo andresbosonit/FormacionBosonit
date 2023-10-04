@@ -1,5 +1,5 @@
 #!/bin/sh
-# wait-for-eureka.sh
+#wait-for-eureka.sh
 
 echo "Waiting for Eureka to become available..."
 

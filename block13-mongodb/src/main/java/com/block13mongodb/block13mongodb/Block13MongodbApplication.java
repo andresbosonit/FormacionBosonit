@@ -51,5 +51,4 @@ public class Block13MongodbApplication implements CommandLineRunner {
 		LOG.info("Getting people between age 22 & 26: {}",
 				personDAL.findByAgeRange(22, 26));
 	}
-
 }

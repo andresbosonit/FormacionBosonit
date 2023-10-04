@@ -5,6 +5,7 @@ import com.example.block7crud.controller.dto.PersonOutputDto;
 import com.example.block7crud.domain.Persona;
 import com.example.block7crud.repository.PersonaRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,7 @@ public class ServicioPersonaImpl implements ServicioPersona{
     }
 
     @Override
+    @Cacheable("consultarTodosLosRegistros")
     public List<PersonOutputDto> consultarTodosLosRegistros(int pageNumber, int pageSize) {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         return personaRepositorio.findAll(pageRequest).getContent()
